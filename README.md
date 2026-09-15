@@ -142,8 +142,20 @@ layer up, by the browser cache logic below. Splitting it this way means the app 
 strategy can't do.
 
 The cache is versioned (`VERSION` in `sw.js`) and cleans up the previous version on
-activate, so a shell update reaches installed copies the next time they're opened online
-— bump `VERSION` when changing anything under `site/` that the service worker lists.
+activate — **bump `VERSION` on every deploy that changes anything under `site/`**, or the
+new bytes never get noticed at all: an already-installed copy is served cache-first
+forever, not just once, since nothing about a plain file edit tells the browser to go
+looking for an update. `sw.js`'s own bytes changing is what triggers that check, so
+touching only `app.js`/`styles.css` without bumping `VERSION` ships nothing to anyone
+already using the app.
+
+Bumping it is still only half the fix. On its own, an already-open installed app keeps
+running the JS it already loaded into memory until it's closed and relaunched — the new
+shell only affects the *next* cold start. `app.js` also listens for `controllerchange`
+(the standard signal that a new service worker has just taken over) and reloads once when
+it fires, so an update reaches an app that's already open without the reader needing to
+know to force-close it. Chart type, hidden teams and focus all survive that reload —
+they're restored from `localStorage` — so it's invisible.
 
 **A banner offers the install itself**, rather than waiting for someone to find it in a
 browser menu. It reacts only to what the browser actually reports, so it never offers a

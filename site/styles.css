@@ -217,7 +217,10 @@ h1 {
 .install-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  /* Enough room that the dismiss tap target doesn't sit flush against the
+     Install button — the two are easy to confuse at a small gap on a real
+     touchscreen, even though each is individually large enough now. */
+  gap: 10px;
   flex: none;
 }
 
@@ -245,12 +248,16 @@ h1 {
   border: none;
   background: transparent;
   color: var(--text-muted);
-  width: 32px;
-  height: 32px;
+  /* 44px is the accepted minimum comfortable touch target (Apple/Google
+     guidance) — the previous 32px was a real, plausible reason a tap could
+     land next to the glyph and miss the button's hit area entirely. */
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
+  flex: none;
 }
 
 .install-dismiss:hover { background: var(--wash); }

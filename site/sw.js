@@ -2,8 +2,10 @@
 // network at all — the point of installing it to a homescreen. The stats file
 // is deliberately left alone: app.js does its own fetch + localStorage
 // fallback for that, so it can tell fresh data from a stale offline copy and
-// say so. Bump VERSION on a shell change to evict the old cache.
-const VERSION = 'v1';
+// say so. Bump VERSION on a shell change to evict the old cache — this file's
+// own bytes changing is also what makes the browser notice there's an update
+// at all, so a change here can't be silently skipped by editing SHELL alone.
+const VERSION = 'v2';
 const CACHE = `fpl-league-view-${VERSION}`;
 
 // Relative to this file's own location (the site root), so this works the

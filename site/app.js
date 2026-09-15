@@ -779,6 +779,20 @@
   // page works the same, just without the offline app shell.
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
+
+    // The standard fix for "the installed app is stuck on an old version":
+    // when a new service worker takes over an already-open page, that's the
+    // browser's own signal a fresh shell is ready, so reload once to start
+    // using it immediately instead of waiting for a second manual relaunch.
+    // Chart type, hidden teams and focus all survive this — they're restored
+    // from localStorage on load — so the reload is invisible to the reader.
+    let reloadedForUpdate = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadedForUpdate) return; // guards against firing more than once
+      reloadedForUpdate = true;
+      window.location.reload();
+    });
+
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js').catch(() => {});
     });
