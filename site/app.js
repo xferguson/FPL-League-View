@@ -400,6 +400,47 @@
 
   /* ---------- header ---------- */
 
+  /* Both readings of "when": how stale it is at a glance, and the exact local
+     timestamp, since "2 days ago" is no help when you want to know if today's
+     gameweek is in yet. */
+  function renderUpdated() {
+    const box = el('updated');
+    box.replaceChildren();
+    if (!data.generatedAt) return;
+
+    const when = new Date(data.generatedAt);
+    if (Number.isNaN(when.getTime())) return;
+
+    box.appendChild(document.createTextNode('Last updated '));
+
+    const rel = document.createElement('time');
+    rel.dateTime = data.generatedAt;
+    rel.className = 'updated-rel';
+    rel.textContent = relativeTime(data.generatedAt);
+    rel.title = when.toString();
+    box.appendChild(rel);
+
+    const abs = document.createElement('span');
+    abs.className = 'updated-abs';
+    abs.textContent = when.toLocaleString(undefined, {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    box.appendChild(abs);
+
+    // Say what the data actually covers, not just when it was pulled.
+    const gws = data.gameweeks ?? [];
+    if (gws.length) {
+      const through = document.createElement('span');
+      through.className = 'updated-abs';
+      through.textContent = `complete through GW ${gws.at(-1)}`;
+      box.appendChild(through);
+    }
+  }
+
   function renderHead() {
     document.title = data.league?.name ? `${data.league.name} — FPL League View` : 'FPL League View';
     el('league-name').textContent = data.league?.name || 'FPL League View';
@@ -412,7 +453,7 @@
         : `GW ${gws[0]}–${gws.at(-1)}`
       : '';
 
-    el('updated').textContent = data.generatedAt ? `Updated ${relativeTime(data.generatedAt)}` : '';
+    renderUpdated();
     el('sample-notice').hidden = data.sample !== true;
   }
 

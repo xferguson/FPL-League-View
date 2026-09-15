@@ -136,9 +136,22 @@ h1 {
 }
 
 .updated {
-  margin: 2px 0 0;
-  color: var(--text-muted);
+  margin: 6px 0 0;
+  color: var(--text-secondary);
   font-size: 0.8125rem;
+}
+
+.updated-rel {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Each trailing fact is separated by its own dot, so the line reflows cleanly
+   on a narrow screen instead of leaving a dangling separator. */
+.updated-abs::before {
+  content: "·";
+  margin: 0 6px;
+  color: var(--text-muted);
 }
 
 /* ---------- notices ---------- */
