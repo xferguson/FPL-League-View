@@ -41,7 +41,11 @@ jobs:
       - name: Validate data before publishing
         run: node scripts/validate-data.mjs
 
+      # enablement turns Pages on and points it at Actions on the first run,
+      # so the deploy does not need the repository setting flipped by hand.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:

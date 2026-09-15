@@ -9,14 +9,14 @@ Built for reading on a phone. No backend, no build step: the page loads one JSON
 
 Configured for league **383398** (`config.json`).
 
-## Setup — two things to do by hand
+## Setup
 
-Both are one-time repository settings, and neither can be done from a commit:
+The deploy workflow turns Pages on itself (`configure-pages` runs with
+`enablement: true`), so the only setting left to check by hand is:
 
-1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
-   Without this the deploy workflow has nowhere to publish.
-2. **Settings → Actions → General → Workflow permissions → Read and write
-   permissions.** The refresh workflow commits the JSON it fetches.
+- **Settings → Actions → General → Workflow permissions → Read and write
+  permissions.** The refresh workflow commits the JSON it fetches; without
+  write access that commit step fails.
 
 Then run **Actions → Refresh FPL data → Run workflow** to pull real data for the first
 time. Until that runs, the site shows clearly-labelled placeholder numbers.
