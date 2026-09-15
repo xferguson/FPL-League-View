@@ -145,6 +145,32 @@ The cache is versioned (`VERSION` in `sw.js`) and cleans up the previous version
 activate, so a shell update reaches installed copies the next time they're opened online
 — bump `VERSION` when changing anything under `site/` that the service worker lists.
 
+**A banner offers the install itself**, rather than waiting for someone to find it in a
+browser menu. It reacts only to what the browser actually reports, so it never offers a
+button that would do nothing:
+
+- **Chrome/Edge/Android** fire `beforeinstallprompt` when the page qualifies (valid
+  manifest, a registered service worker, https). The banner captures that event, shows an
+  **Install** button, and calls the browser's own install flow when it's tapped.
+- **iOS Safari never fires that event at all** — Apple's platform has no programmatic
+  install call, full stop. There the banner instead shows "Tap [share icon], then
+  'Add to Home Screen'", detected by user agent since there's no feature to test for.
+  iPadOS 13+ reports itself as `MacIntel`, indistinguishable from a real Mac by user
+  agent string alone, so that case is caught by checking for touch support instead.
+- **Firefox desktop and anything else that supports neither path** never shows the
+  banner — there's nothing to offer, so nothing appears, rather than a dead button.
+- **Already installed** (`display-mode: standalone`, or iOS's older `navigator.standalone`
+  flag) suppresses the banner entirely; dismissing it (the × button) hides it for 30
+  days, saved as a timestamp under `fplview:v1:installDismissedAt`.
+
+Orientation is unlocked (`"orientation": "any"` in the manifest) — earlier this was
+pinned to portrait, which on Android stops the installed app from rotating at all, not
+just from looking good in landscape. A phone held sideways is wide enough to trip the
+`min-width: 600px` desktop breakpoint above but far too short for that breakpoint's fixed
+420px chart height, so a second, more specific rule (`orientation: landscape` *and*
+`max-height: 500px`, which a real desktop window fails) gives the chart a height tied to
+the viewport instead.
+
 ## Offline stats and remembered preferences
 
 Two independent things live in `localStorage`, both under a versioned key prefix

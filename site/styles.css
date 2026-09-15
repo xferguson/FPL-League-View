@@ -187,6 +187,79 @@ h1 {
 /* Informational, not alarming — a thinner amber accent, not the error red. */
 .notice-offline { border-left-color: var(--warning); }
 
+/* A call to action, not a warning — the accent is the focus blue used
+   elsewhere for interactive things, distinct from the error/warning tones. */
+.notice-install {
+  border-left-color: var(--focus);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.install-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.install-copy strong { color: var(--text-primary); }
+
+/* Plain inline flow, not flex — flex's `gap` would insert space between the
+   icon and the punctuation that follows it, reading as "tap [icon] , then". */
+.share-icon {
+  vertical-align: -3px;
+  margin: 0 2px;
+}
+
+.install-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}
+
+.install-btn {
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  background: var(--focus);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 8px 14px;
+  min-height: 36px;
+  cursor: pointer;
+}
+
+.install-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.install-dismiss {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.install-dismiss:hover { background: var(--wash); }
+
+.install-dismiss:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
 /* ---------- cards ---------- */
 
 .card {
@@ -463,4 +536,18 @@ tbody tr:last-child td { border-bottom: 0; }
   .viz-root { padding: 28px 24px 40px; }
   h1 { font-size: 1.75rem; }
   .chart-box { height: 420px; max-height: none; }
+}
+
+/* A phone held sideways is wide enough to trip the desktop rule above, but
+   it's shallow — very little vertical room. Tie the chart height to the
+   viewport instead of the desktop's fixed 420px, and trim vertical padding,
+   so the chart doesn't alone exceed the whole screen height. Both conditions
+   matter: orientation:landscape alone also matches an ordinary wide desktop
+   window, which is exactly what the rule above is already tuned for. This
+   comes after it in the stylesheet so it wins the properties both set. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .viz-root { padding-top: 12px; padding-bottom: 20px; }
+  .page-head { margin-bottom: 10px; }
+  .card { padding: 12px; margin: 0 0 12px; }
+  .chart-box { height: 68vh; max-height: 340px; min-height: 200px; margin-top: 8px; }
 }

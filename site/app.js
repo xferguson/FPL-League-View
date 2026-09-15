@@ -662,6 +662,115 @@
     setOfflineNotice(Boolean(result.stale), result.fetchedAt);
   }
 
+  /* ---------- install prompt ---------- */
+
+  const INSTALL_DISMISS_KEY = 'fplview:v1:installDismissedAt';
+  const INSTALL_DISMISS_DAYS = 30; // re-offer after a while rather than never again
+
+  let deferredInstallPrompt = null; // the captured beforeinstallprompt event
+
+  function isStandaloneDisplay() {
+    return (
+      window.matchMedia?.('(display-mode: standalone)').matches ||
+      // iOS Safari's own older, non-standard signal — still the only one it exposes.
+      window.navigator.standalone === true
+    );
+  }
+
+  function isIOSDevice() {
+    // iPadOS 13+ identifies as "MacIntel" with touch support, indistinguishable
+    // from a real Mac by user agent string alone.
+    return (
+      /iP(hone|od|ad)/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    );
+  }
+
+  function installDismissedRecently() {
+    const at = Number(storageGet(INSTALL_DISMISS_KEY));
+    if (!Number.isFinite(at)) return false;
+    return Date.now() - at < INSTALL_DISMISS_DAYS * 24 * 60 * 60 * 1000;
+  }
+
+  function hideInstallBanner() {
+    el('install-banner').hidden = true;
+  }
+
+  function dismissInstallBanner() {
+    storageSet(INSTALL_DISMISS_KEY, Date.now());
+    hideInstallBanner();
+  }
+
+  /* A small inline share-square-with-arrow glyph, close enough to iOS's own
+     Share icon to be recognisable without shipping an image asset. */
+  function shareIcon() {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '16');
+    svg.setAttribute('height', '16');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.classList.add('share-icon');
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute(
+      'd',
+      'M12 2.5v11.75M8 6.5 12 2.5 16 6.5M5.5 10h-1A1.5 1.5 0 0 0 3 11.5v8A1.5 1.5 0 0 0 4.5 21h15a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 19.5 10h-1'
+    );
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', '1.8');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(path);
+    return svg;
+  }
+
+  /* iOS never fires beforeinstallprompt and has no programmatic install call
+     at all — "Share, then Add to Home Screen" is the only path there ever is. */
+  function renderIOSInstallCopy() {
+    const text = el('install-copy-text');
+    text.replaceChildren();
+    text.appendChild(document.createTextNode('Tap'));
+    text.appendChild(shareIcon());
+    text.appendChild(document.createTextNode(', then "Add to Home Screen".'));
+  }
+
+  /* Nothing here assumes installability — it only ever reacts to the browser's
+     own signals, so the banner simply never appears on a browser that can't
+     install (Firefox desktop, for instance), rather than offering a button
+     that would do nothing. */
+  function setupInstallPrompt() {
+    if (isStandaloneDisplay()) return; // already installed — nothing to offer
+    if (installDismissedRecently()) return;
+
+    el('install-dismiss').addEventListener('click', dismissInstallBanner);
+
+    if (isIOSDevice()) {
+      renderIOSInstallCopy();
+      el('install-banner').hidden = false;
+      return; // no button: there is nothing to invoke programmatically
+    }
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault(); // suppress the browser's own mini-infobar; we show ours
+      deferredInstallPrompt = event;
+      el('install-btn').hidden = false;
+      el('install-banner').hidden = false;
+    });
+
+    el('install-btn').addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      hideInstallBanner();
+    });
+
+    // Covers installing via the browser's own UI (omnibox icon) rather than
+    // our button, so the banner doesn't linger after the app is already added.
+    window.addEventListener('appinstalled', hideInstallBanner);
+  }
+
   /* ---------- service worker ---------- */
 
   // Makes the app shell (this HTML/CSS/JS, not the data) load with no network
@@ -690,6 +799,7 @@
     });
 
     registerServiceWorker();
+    setupInstallPrompt();
 
     const result = await loadLeagueData();
     if (!result.payload) {
