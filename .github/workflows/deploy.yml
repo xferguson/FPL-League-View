@@ -2,7 +2,7 @@ name: Deploy site
 
 on:
   push:
-    branches: [main, master, claude/fpl-league-website-6fub8a]
+    branches: [main]
     paths:
       - 'site/**'
       - '.github/workflows/deploy.yml'
