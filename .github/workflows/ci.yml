@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Syntax-check the scripts
+        run: |
+          node --check scripts/fetch-data.mjs
+          node --check scripts/validate-data.mjs
+
+      - name: Check the site's JavaScript parses
+        run: node --check site/app.js
+
+      - name: Exercise the fetcher's request plan without touching the network
+        run: node scripts/fetch-data.mjs --dry-run
+
+      - name: Validate the committed data
+        run: node scripts/validate-data.mjs

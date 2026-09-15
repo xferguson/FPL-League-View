@@ -1,0 +1,438 @@
+/* Palette and chrome follow the validated reference instance: categorical slots
+   1-8 for teams, neutral ink for the baseline reference lines. */
+
+.viz-root {
+  color-scheme: light;
+
+  --surface-1: #fcfcfb;
+  --page-plane: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+  --wash: rgba(11, 11, 11, 0.04);
+
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #4a3aa7;
+  --series-8: #e34948;
+
+  --good: #006300;
+  --critical: #d03b3b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .viz-root {
+    color-scheme: dark;
+
+    --surface-1: #1a1a19;
+    --page-plane: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+    --wash: rgba(255, 255, 255, 0.06);
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #008300;
+    --series-7: #9085e9;
+    --series-8: #e66767;
+
+    --good: #0ca30c;
+    --critical: #d03b3b;
+  }
+}
+
+:root[data-theme="dark"] .viz-root {
+  color-scheme: dark;
+
+  --surface-1: #1a1a19;
+  --page-plane: #0d0d0d;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+  --gridline: #2c2c2a;
+  --baseline: #383835;
+  --border: rgba(255, 255, 255, 0.10);
+  --wash: rgba(255, 255, 255, 0.06);
+
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #008300;
+  --series-7: #9085e9;
+  --series-8: #e66767;
+
+  --good: #0ca30c;
+  --critical: #d03b3b;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--page-plane);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* The theme tokens live on .viz-root, so the page plane is painted from here too. */
+.viz-root {
+  background: var(--page-plane);
+  min-height: 100vh;
+  padding: 20px 16px calc(32px + env(safe-area-inset-bottom));
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- header ---------- */
+
+.page-head { margin: 0 0 16px; }
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.sub span + span::before {
+  content: "·";
+  margin: 0 6px;
+  color: var(--text-muted);
+}
+
+.updated {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ---------- notices ---------- */
+
+.notice {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--text-muted);
+  border-radius: 6px;
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.notice strong { color: var(--text-primary); }
+
+.notice-error { border-left-color: var(--critical); }
+
+/* ---------- cards ---------- */
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 0 0 16px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-note {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* ---------- segmented control ---------- */
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.seg {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.8125rem;
+  padding: 8px 14px;
+  min-height: 36px;
+  cursor: pointer;
+}
+
+.seg + .seg { border-left: 1px solid var(--border); }
+
+.seg.is-active {
+  background: var(--wash);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.seg:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: -2px;
+}
+
+.clear-focus {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ---------- chart ---------- */
+
+.chart-box {
+  position: relative;
+  height: 58vh;
+  min-height: 300px;
+  max-height: 460px;
+  margin-top: 12px;
+}
+
+/* ---------- legend ---------- */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.chip {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  min-height: 30px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip.is-off {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 1px;
+}
+
+/* A short stroke keys each series, matching the line it stands for. */
+.chip-key {
+  flex: none;
+  width: 18px;
+  height: 0;
+  border-top-width: 3px;
+  border-top-style: solid;
+  border-radius: 2px;
+}
+
+.chip-more {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chip-key.dashed { border-top-style: dashed; }
+.chip-key.dotted { border-top-style: dotted; }
+
+/* ---------- table ---------- */
+
+.table-wrap {
+  margin-top: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  /* Fixed layout so a long team name ellipsises instead of widening the table. */
+  table-layout: fixed;
+}
+
+caption { text-align: left; }
+
+th, td {
+  padding: 9px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--gridline);
+}
+
+th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* The numeric columns are pinned; the team column takes whatever is left. */
+.col-rank  { width: 26px; }
+.col-total { width: 50px; }
+.col-last  { width: 44px; }
+.col-vs    { width: 68px; }
+.col-team  { width: auto; }
+
+td:first-child, th:first-child { padding-left: 0; }
+td:last-child, th:last-child { padding-right: 0; }
+
+td.num { font-size: 0.8125rem; }
+
+.num { white-space: nowrap; }
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+tbody tr { cursor: pointer; }
+
+tbody tr:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: -2px;
+}
+
+tbody tr.is-focused { background: var(--wash); }
+
+tbody tr:last-child td { border-bottom: 0; }
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Both levels need min-width:0 for the ellipsis to engage inside a flex row. */
+.team-cell > div { min-width: 0; }
+
+.swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.team-name {
+  /* Must be block: text-overflow does not apply to inline boxes. */
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.manager {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.pos { color: var(--good); }
+.neg { color: var(--critical); }
+
+/* ---------- definitions ---------- */
+
+.defs {
+  margin: 12px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.defs dt {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.defs dt:first-child { margin-top: 0; }
+
+.defs dd {
+  margin: 2px 0 0;
+  color: var(--text-secondary);
+}
+
+/* ---------- footer ---------- */
+
+.page-foot {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.page-foot p { margin: 0; }
+
+@media (min-width: 600px) {
+  .viz-root { padding: 28px 24px 40px; }
+  h1 { font-size: 1.75rem; }
+  .chart-box { height: 420px; max-height: none; }
+}

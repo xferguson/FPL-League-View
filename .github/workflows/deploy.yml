@@ -1,0 +1,51 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main, master, claude/fpl-league-website-6fub8a]
+    paths:
+      - 'site/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+  # Called by refresh.yml: a commit pushed with GITHUB_TOKEN does not retrigger
+  # `on: push`, so the refresh job has to invoke this deploy explicitly.
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; queue instead of cancelling a publish in flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Take the branch tip, so a deploy called right after a data commit
+          # publishes that commit rather than the SHA that triggered the caller.
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate data before publishing
+        run: node scripts/validate-data.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

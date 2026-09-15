@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Gameweek-by-gameweek points for an FPL mini-league, against the league average, the overall FPL average, and an eleven-average-players index.">
+<title>FPL League View</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="viz-root">
+
+  <header class="page-head">
+    <h1 id="league-name">FPL League View</h1>
+    <p class="sub"><span id="season"></span><span id="gw-range"></span></p>
+    <p class="updated" id="updated"></p>
+  </header>
+
+  <p class="notice" id="sample-notice" hidden>
+    <strong>Placeholder data.</strong> These are made-up numbers so the page has something to
+    draw. Real standings appear after the refresh workflow runs.
+  </p>
+
+  <p class="notice notice-error" id="load-error" hidden></p>
+
+  <main>
+    <section class="card" aria-labelledby="chart-heading">
+      <div class="card-head">
+        <h2 id="chart-heading">Points by gameweek</h2>
+        <div class="segmented" role="group" aria-label="Chart mode">
+          <button type="button" id="mode-cumulative" class="seg is-active" aria-pressed="true">Cumulative</button>
+          <button type="button" id="mode-weekly" class="seg" aria-pressed="false">Per GW</button>
+        </div>
+      </div>
+
+      <p class="card-note" id="chart-note"></p>
+
+      <div class="chart-box">
+        <canvas id="chart" role="img" aria-label="Line chart of cumulative points per gameweek for each team, with league average, overall FPL average and index baselines"></canvas>
+      </div>
+
+      <div class="legend" id="legend"></div>
+
+      <p class="card-note" id="focus-hint">Tap a legend chip to hide a line. Tap a row in the table to focus one team.</p>
+    </section>
+
+    <section class="card" aria-labelledby="table-heading">
+      <div class="card-head">
+        <h2 id="table-heading">Standings</h2>
+        <button type="button" class="seg clear-focus" id="clear-focus" hidden>Clear focus</button>
+      </div>
+      <div class="table-wrap">
+        <table id="standings">
+          <caption class="sr-only">League standings with season total, latest gameweek score and margin against the index baseline</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="num col-rank">#</th>
+              <th scope="col" class="col-team">Team</th>
+              <th scope="col" class="num col-total">Total</th>
+              <th scope="col" class="num col-last">Last</th>
+              <th scope="col" class="num col-vs">vs Index</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="baselines-heading">
+      <h2 id="baselines-heading">What the baselines mean</h2>
+      <dl class="defs">
+        <dt>League average</dt>
+        <dd>The mean score of the teams in this league each gameweek.</dd>
+        <dt>FPL average</dt>
+        <dd>The official average score across every FPL manager that gameweek.</dd>
+        <dt>Index</dt>
+        <dd id="index-def">A synthetic baseline: the mean score of every player who featured that
+          gameweek, times eleven &mdash; roughly what a team of eleven completely average
+          performers would have scored.</dd>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="page-foot">
+    <p>Static site. Data from the public FPL API, refreshed by a scheduled GitHub Action.</p>
+  </footer>
+
+</div>
+
+<script src="vendor/chart.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
