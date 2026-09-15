@@ -2,8 +2,12 @@ name: Deploy site
 
 on:
   push:
-    # main is now the repository's actual default branch — the only branch
-    # the github-pages environment (below) will let a deploy run against.
+    # main is the repository's default branch. The github-pages environment
+    # below has its own, separate "Deployment branches and tags" policy
+    # (Settings -> Environments -> github-pages) that must independently
+    # list this branch — it is set once when Pages is first enabled and does
+    # not follow the default-branch setting afterwards, so changing one
+    # without the other silently breaks every deploy. See that block below.
     branches: [main]
     paths:
       - 'site/**'
@@ -27,6 +31,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
+      # This environment's own "Deployment branches and tags" policy
+      # (Settings -> Environments -> github-pages) must include whichever
+      # branch this workflow is running on, independent of the repository's
+      # default branch and of the trigger's branches list above. A mismatch
+      # fails this job instantly, before a runner is even assigned and with
+      # no log output — that silence is the signature to recognise if this
+      # ever breaks again.
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
