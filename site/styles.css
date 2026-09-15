@@ -95,6 +95,19 @@
 
 * { box-sizing: border-box; }
 
+/* A defensive backstop, not decoration. The HTML `hidden` attribute works via
+   the browser's own `[hidden] { display: none; }` rule — but that's a normal-
+   priority *user-agent* rule, and CSS cascade origin beats specificity: ANY
+   normal-priority author rule that sets `display` on the same element wins
+   regardless of selector weight or source order. `.notice-install` below sets
+   `display: flex` to lay itself out, which silently defeated `hidden` for
+   that one element — toggling the attribute in JS kept "working" (the
+   attribute really was being set) while having zero visual effect. This
+   makes `hidden` win outright, for every element, permanently, so no other
+   component can reintroduce the same bug by giving a hideable element its
+   own `display` value. */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; }
 
 body {

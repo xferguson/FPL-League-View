@@ -5,7 +5,7 @@
 // say so. Bump VERSION on a shell change to evict the old cache — this file's
 // own bytes changing is also what makes the browser notice there's an update
 // at all, so a change here can't be silently skipped by editing SHELL alone.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = `fpl-league-view-${VERSION}`;
 
 // Relative to this file's own location (the site root), so this works the
