@@ -9,14 +9,19 @@ Built for reading on a phone. No backend, no build step: the page loads one JSON
 
 Configured for league **383398** (`config.json`).
 
-## Setup
+## Setup — two things to do by hand
 
-The deploy workflow turns Pages on itself (`configure-pages` runs with
-`enablement: true`), so the only setting left to check by hand is:
+Neither can be done from a commit, and the deploy fails until the first is done:
 
-- **Settings → Actions → General → Workflow permissions → Read and write
-  permissions.** The refresh workflow commits the JSON it fetches; without
-  write access that commit step fails.
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+   The deploy workflow does ask `configure-pages` to enable Pages itself
+   (`enablement: true`), but `GITHUB_TOKEN` is refused that call with
+   *"Resource not accessible by integration"*, so it has to be switched on in the
+   settings UI. The flag is kept because it costs nothing and makes the workflow
+   self-sufficient on any repository where the token is allowed to do it.
+2. **Settings → Actions → General → Workflow permissions → Read and write
+   permissions.** The refresh workflow commits the JSON it fetches; without
+   write access that commit step fails.
 
 Then run **Actions → Refresh FPL data → Run workflow** to pull real data for the first
 time. Until that runs, the site shows clearly-labelled placeholder numbers.
