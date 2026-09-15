@@ -5,9 +5,16 @@
   'use strict';
 
   const DATA_URL = 'data/league.json';
-  const TEAM_SLOTS = 8; // categorical palette depth; teams past this go neutral
+  const TEAM_HUES = 9; // validated categorical hues; see the note in styles.css
+  // Second identity channel. Nine hues is the most that clears the colourblind
+  // and contrast gates, so beyond nine a team reuses a hue with a new line
+  // style: every team ends up a unique colour+style pair, 27 in all.
+  const TEAM_STYLES = [
+    { name: 'solid', dash: [] },
+    { name: 'dashed', dash: [7, 4] },
+    { name: 'dotted', dash: [1, 4] },
+  ];
   const TOOLTIP_TEAMS = 8; // keep the readout shorter than the screen in a big league
-  const LEGEND_COLLAPSE_AT = 12; // past this many teams the chip list is folded
 
   const el = (id) => document.getElementById(id);
 
@@ -15,7 +22,6 @@
   let chart = null;
   let mode = 'cumulative'; // 'cumulative' | 'gw'
   let focusedEntry = null; // entry id of the team singled out, or null
-  let legendExpanded = false;
   const hidden = new Set(); // dataset keys switched off via the legend
 
   /** Read a CSS custom property off .viz-root so JS and CSS share one palette. */
@@ -24,7 +30,7 @@
 
   function palette() {
     return {
-      series: Array.from({ length: TEAM_SLOTS }, (_, i) => token(`--series-${i + 1}`)),
+      series: Array.from({ length: TEAM_HUES }, (_, i) => token(`--series-${i + 1}`)),
       primary: token('--text-primary'),
       secondary: token('--text-secondary'),
       muted: token('--text-muted'),
@@ -55,18 +61,23 @@
 
   /* ---------- series assembly ---------- */
 
-  // The three baselines are reference lines, not competitors: neutral ink, and
-  // told apart by dash pattern as well as weight.
+  /* The three baselines are reference lines, not competitors, so they stay
+     neutral — no team is ever neutral, which is what separates the two groups.
+     They are drawn heavier than the team lines because against twenty-odd
+     coloured series a thin grey line simply disappears. */
   function baselineSpecs(p) {
     return [
-      { key: 'index', label: 'Index', color: p.primary, dash: [], width: 2.5, style: 'solid' },
-      { key: 'leagueAverage', label: 'League average', color: p.secondary, dash: [7, 4], width: 2, style: 'dashed' },
-      { key: 'fplAverage', label: 'FPL average', color: p.muted, dash: [2, 3], width: 2, style: 'dotted' },
+      { key: 'index', label: 'Index', color: p.primary, dash: [], width: 3, style: 'solid' },
+      { key: 'leagueAverage', label: 'League average', color: p.secondary, dash: [8, 4], width: 2.75, style: 'dashed' },
+      { key: 'fplAverage', label: 'FPL average', color: p.secondary, dash: [1, 4], width: 2.75, style: 'dotted' },
     ];
   }
 
-  function teamColor(index, p) {
-    return index < TEAM_SLOTS ? p.series[index] : p.muted;
+  /* Hue cycles fastest so the top of the table is nine clearly different
+     colours; the line style only changes once the hues are used up. */
+  function teamStyle(index, p) {
+    const style = TEAM_STYLES[Math.floor(index / TEAM_HUES) % TEAM_STYLES.length];
+    return { color: p.series[index % TEAM_HUES], dash: style.dash, styleName: style.name };
   }
 
   function values(source) {
@@ -77,7 +88,7 @@
     const dimmed = focusedEntry !== null;
 
     const teams = data.teams.map((team, i) => {
-      const color = teamColor(i, p);
+      const { color, dash, styleName } = teamStyle(i, p);
       const isFocus = focusedEntry === team.entry;
       return {
         key: `team:${team.entry}`,
@@ -85,6 +96,8 @@
         data: values(team),
         borderColor: color,
         backgroundColor: color,
+        borderDash: dash,
+        styleName,
         borderWidth: isFocus ? 3.5 : 2,
         pointRadius: 0,
         pointHoverRadius: 5,
@@ -109,6 +122,7 @@
         backgroundColor: spec.color,
         borderWidth: spec.width,
         borderDash: spec.dash,
+        styleName: spec.style,
         pointRadius: 0,
         pointHoverRadius: 4,
         pointHoverBorderWidth: 2,
@@ -129,7 +143,9 @@
       }
     }
 
-    return [...teams, ...baselines];
+    // Baselines lead the array so they head the legend, where they are easiest
+    // to find; a higher `order` still draws them over the team lines.
+    return [...baselines, ...teams];
   }
 
   /* ---------- crosshair ---------- */
@@ -254,31 +270,16 @@
     const box = el('legend');
     box.replaceChildren();
 
-    // In a big league the full chip list buries the page, so the neutral teams
-    // past the palette collapse behind a toggle.
-    const teamCount = chart.data.datasets.filter((d) => d.key.startsWith('team:')).length;
-    const collapsible = teamCount > LEGEND_COLLAPSE_AT;
-    let shown = 0;
-
     for (const ds of chart.data.datasets) {
-      const isTeam = ds.key.startsWith('team:');
-      if (collapsible && !legendExpanded && isTeam) {
-        shown += 1;
-        // A hidden team keeps its chip even when collapsed, or there would be no
-        // way to switch its line back on.
-        if (shown > TEAM_SLOTS && !hidden.has(ds.key)) continue;
-      }
       const chip = document.createElement('button');
       chip.type = 'button';
       chip.className = 'chip';
       if (hidden.has(ds.key)) chip.classList.add('is-off');
       chip.setAttribute('aria-pressed', String(!hidden.has(ds.key)));
 
+      // The chip repeats both identity channels: the line's colour and its style.
       const key = document.createElement('i');
-      key.className = 'chip-key';
-      if (ds.borderDash?.length === 2) key.classList.add('dotted');
-      else if (ds.borderDash?.length) key.classList.add('dashed');
-      // Keyed with the line's own color, except where focus has greyed it out.
+      key.className = `chip-key ${ds.styleName ?? 'solid'}`;
       key.style.borderTopColor = ds.borderColor;
       chip.appendChild(key);
 
@@ -295,19 +296,6 @@
       box.appendChild(chip);
     }
 
-    if (collapsible) {
-      const more = document.createElement('button');
-      more.type = 'button';
-      more.className = 'chip chip-more';
-      more.textContent = legendExpanded
-        ? 'Show fewer'
-        : `Show all ${teamCount} teams`;
-      more.addEventListener('click', () => {
-        legendExpanded = !legendExpanded;
-        renderLegend();
-      });
-      box.appendChild(more);
-    }
   }
 
   function renderNote() {
@@ -345,9 +333,11 @@
       const teamCell = document.createElement('td');
       const wrap = document.createElement('div');
       wrap.className = 'team-cell';
+      const { color, styleName } = teamStyle(i, p);
       const swatch = document.createElement('i');
-      swatch.className = 'swatch';
-      swatch.style.background = teamColor(i, p);
+      // Same line sample as the legend, so the two views key identically.
+      swatch.className = `chip-key ${styleName}`;
+      swatch.style.borderTopColor = color;
       const names = document.createElement('div');
       const nameEl = document.createElement('span');
       nameEl.className = 'team-name';

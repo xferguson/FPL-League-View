@@ -121,10 +121,18 @@ zero. Per-gameweek team scores are net of transfer hits, matching the official s
 
 ## Notes on the page
 
-- **Colours** come from a validated categorical palette; the first eight teams take a
-  distinct hue each and the rest are drawn in neutral grey. Tap any row in the standings
-  table to single out a team, whatever its rank.
-- **The three baselines** are reference lines, not competitors: neutral ink, told apart
-  by weight and dash pattern, drawn over the team lines.
+- **Every team gets its own colour and line style.** The nine hues were generated in
+  OKLCH and validated for colourblind separation and contrast against both surfaces.
+  Nine is the ceiling, not a preference: ten or more evenly-spaced hues fail the
+  separation gates in one mode or the other, so past nine a team reuses a hue with a
+  different line style (solid, dashed, dotted). That gives 27 unique colour+style pairs,
+  enough for a 23-team league with room to spare.
+- **Twenty-odd lines cannot be told apart by hue alone** — no palette can do that, which
+  is why the style channel exists. For reading one team, tap its row in the standings
+  table: it thickens and everything else recedes.
+- **The three baselines** lead the legend, where they are easiest to find. They are
+  reference lines rather than competitors, so they stay neutral — no team is ever
+  neutral — and are drawn heavier than the team lines, because against that many
+  coloured series a thin grey line disappears.
 - **Light and dark** are separate palettes stepped for their own surface, not an
   automatic inversion. The page follows the OS setting.
