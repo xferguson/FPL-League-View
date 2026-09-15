@@ -28,6 +28,15 @@ Neither can be done from a commit, and the deploy fails until the first is done:
    permissions.** The refresh workflow commits the JSON it fetches; without
    write access that commit step fails.
 
+If the repository's default branch is ever changed (as this one's was, from the branch
+first pushed to `main`), there is a **third** setting to check, easy to miss because it
+lives somewhere else entirely: **Settings → Environments → github-pages → Deployment
+branches and tags.** GitHub sets this automatically when Pages is first enabled, pinned
+to whatever branch was default *at that moment* — it does not track the default branch
+setting afterwards. A deploy against a branch not on that list fails instantly, before a
+runner is even assigned, with no log output at all (the giveaway that it's this and not
+a workflow bug). Add the new default branch there, or switch it to "All branches".
+
 Then run **Actions → Refresh FPL data → Run workflow** to pull real data for the first
 time. Until that runs, the site shows clearly-labelled placeholder numbers.
 
