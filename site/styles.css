@@ -29,6 +29,7 @@
   --focus: #0b6b9e;
 
   --good: #006300;
+  --warning: #fab219;
   --critical: #d03b3b;
 }
 
@@ -58,6 +59,7 @@
     --focus: #0a6a9c;
 
     --good: #0ca30c;
+    --warning: #fab219;
     --critical: #d03b3b;
   }
 }
@@ -87,6 +89,7 @@
   --focus: #0a6a9c;
 
   --good: #0ca30c;
+  --warning: #fab219;
   --critical: #d03b3b;
 }
 
@@ -180,6 +183,9 @@ h1 {
 .notice strong { color: var(--text-primary); }
 
 .notice-error { border-left-color: var(--critical); }
+
+/* Informational, not alarming — a thinner amber accent, not the error red. */
+.notice-offline { border-left-color: var(--warning); }
 
 /* ---------- cards ---------- */
 

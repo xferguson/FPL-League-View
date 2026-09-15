@@ -8,6 +8,9 @@ or **Per GW**. In a percentage view the chosen baseline is a flat 100% line and 
 is read against it.
 
 Built for reading on a phone. No backend, no build step: the page loads one JSON file.
+It's also a installable PWA — add it to your homescreen and it opens like an app, works
+offline (both the page itself and the most recent stats), and remembers your chart type
+and which teams you've hidden or focused.
 
 Configured for league **383398** (`config.json`).
 
@@ -38,6 +41,9 @@ site/                        exactly what gets published
   index.html  styles.css  app.js
   vendor/chart.umd.js        Chart.js 4.4.7, vendored
   data/league.json           the only file the page loads
+  manifest.json               PWA metadata (name, icons, theme colour)
+  sw.js                        service worker: caches the app shell for offline
+  icons/                       homescreen icon, generated at build time (see below)
 ```
 
 Nothing in `scripts/` ever reaches the browser. It runs in Actions, writes JSON, and
@@ -63,11 +69,15 @@ The Monday/Tuesday runs exist because a gameweek is only counted once FPL marks 
 node scripts/fetch-data.mjs            # fetch and write site/data/league.json
 node scripts/fetch-data.mjs --dry-run  # print the request plan, touch no network
 node scripts/validate-data.mjs         # check the data holds together
+node scripts/gen-icon-svg.mjs          # regenerate site/icons/icon.svg after editing it
 
 cd site && python3 -m http.server 8000 # then open http://localhost:8000
 ```
 
 No dependencies to install — the scripts are plain Node 22, and Chart.js is vendored.
+The service worker means a plain reload can serve a stale copy of the app shell while
+you're editing it locally; hard-refresh (or open DevTools → Application → Service
+Workers → Unregister) if a change to `index.html`/`styles.css`/`app.js` isn't showing up.
 
 ## Configuration
 
@@ -108,6 +118,46 @@ No dependencies to install — the scripts are plain Node 22, and Chart.js is ve
 Every per-gameweek array is the same length as `gameweeks`. A team that joined late gets
 `null` for the weeks before it existed, and the chart draws a gap rather than a line to
 zero. Per-gameweek team scores are net of transfer hits, matching the official standings.
+
+## Installing it as an app
+
+`site/manifest.json` + `site/sw.js` make this a PWA. On a phone, "Add to Home Screen"
+(Safari) or the install prompt (Chrome/Edge) gives it a soccer-ball icon and opens it
+without browser chrome, like a native app.
+
+The service worker only caches the **app shell** — `index.html`, `styles.css`, `app.js`,
+the vendored Chart.js, and the icons — so the page itself opens instantly with no network
+at all. It deliberately leaves `data/league.json` alone; that's handled separately, one
+layer up, by the browser cache logic below. Splitting it this way means the app can tell
+"the shell is cached" apart from "the stats are stale", which a single cache-everything
+strategy can't do.
+
+The cache is versioned (`VERSION` in `sw.js`) and cleans up the previous version on
+activate, so a shell update reaches installed copies the next time they're opened online
+— bump `VERSION` when changing anything under `site/` that the service worker lists.
+
+## Offline stats and remembered preferences
+
+Two independent things live in `localStorage`, both under a versioned key prefix
+(`fplview:v1:...`) so a future change to what's stored can't collide with an old shape
+left behind in someone's browser:
+
+- **`fplview:v1:prefs`** — chart type (measure + basis), which teams are hidden via the
+  legend, and which team is focused. Restored on load, so the page reopens exactly how
+  you left it.
+- **`fplview:v1:data`** — the most recent successful `data/league.json` fetch, with a
+  timestamp. If a fetch fails for any reason — offline, a dead link, GitHub Pages
+  hiccuping — the page falls back to this instead of an empty page, and a banner says
+  so: *"You're offline — showing data from 2 hours ago."* (or *"Could not reach the
+  server..."* if `navigator.onLine` says the connection itself is fine, so the wording
+  doesn't lie about the actual cause).
+
+Reconnecting is handled too: an `online` event triggers a quiet background refetch, and
+the banner clears the moment fresh data lands.
+
+Every `localStorage` read and write is wrapped in `try/catch` — private browsing, a full
+quota, or storage disabled entirely all degrade to "works the same, just doesn't
+remember", never a broken page.
 
 ## Notes on the page
 

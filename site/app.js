@@ -16,7 +16,31 @@
   ];
   const TOOLTIP_TEAMS = 8; // keep the readout shorter than the screen in a big league
 
+  // Versioned so a future change to what's stored can't collide with an old shape
+  // left behind in a visitor's browser.
+  const PREFS_KEY = 'fplview:v1:prefs'; // chart type + which teams are shown/focused
+  const CACHE_KEY = 'fplview:v1:data'; // most recent successful data/league.json fetch
+
   const el = (id) => document.getElementById(id);
+
+  /* localStorage can throw (private browsing, quota, disabled storage) and can
+     hold garbage from a future/foreign version of this page, so every read and
+     write is wrapped and every read is treated as untrusted until validated. */
+  function storageGet(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw === null ? null : JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  function storageSet(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // Best-effort only — the page works the same without it, just un-persisted.
+    }
+  }
 
   let data = null;
   let chart = null;
@@ -328,6 +352,7 @@
       chip.addEventListener('click', () => {
         if (hidden.has(ds.key)) hidden.delete(ds.key);
         else hidden.add(ds.key);
+        savePrefs();
         render();
       });
 
@@ -419,6 +444,7 @@
       const toggle = () => {
         focusedEntry = focusedEntry === team.entry ? null : team.entry;
         el('clear-focus').hidden = focusedEntry === null;
+        savePrefs();
         render();
         renderTable();
       };
@@ -493,6 +519,38 @@
     el('sample-notice').hidden = data.sample !== true;
   }
 
+  /* ---------- persisted preferences ---------- */
+
+  const MEASURES = ['points', 'league', 'fpl'];
+  const BASES = ['cumulative', 'gw'];
+
+  /** Restore chart type, which teams are shown, and which is focused. */
+  function loadPrefs() {
+    const saved = storageGet(PREFS_KEY);
+    if (!saved || typeof saved !== 'object') return;
+    if (MEASURES.includes(saved.measure)) measure = saved.measure;
+    if (BASES.includes(saved.basis)) basis = saved.basis;
+    if (Array.isArray(saved.hidden)) {
+      for (const key of saved.hidden) if (typeof key === 'string') hidden.add(key);
+    }
+    if (typeof saved.focus === 'number') focusedEntry = saved.focus;
+  }
+
+  function savePrefs() {
+    storageSet(PREFS_KEY, { measure, basis, hidden: [...hidden], focus: focusedEntry });
+  }
+
+  /** Make the two segmented controls match the (possibly restored) state. */
+  function syncSegmentedControls() {
+    for (const [attr, value] of [['measure', measure], ['basis', basis]]) {
+      for (const button of document.querySelectorAll(`[data-${attr}]`)) {
+        const on = button.dataset[attr] === value;
+        button.classList.toggle('is-active', on);
+        button.setAttribute('aria-pressed', String(on));
+      }
+    }
+  }
+
   /* ---------- wiring ---------- */
 
   /* Both controls work the same way: mark the pressed button, store the choice,
@@ -508,6 +566,7 @@
           other.classList.toggle('is-active', on);
           other.setAttribute('aria-pressed', String(on));
         }
+        savePrefs();
         render();
       });
     }
@@ -519,41 +578,142 @@
     box.hidden = false;
   }
 
+  function isValidPayload(payload) {
+    return (
+      payload &&
+      Array.isArray(payload.teams) &&
+      Array.isArray(payload.gameweeks) &&
+      payload.gameweeks.length > 0
+    );
+  }
+
+  /* ---------- data loading + offline fallback ---------- */
+
+  /* Network first, always. A successful fetch is cached to localStorage so that
+     when the network next fails — offline, a dead link, GitHub Pages hiccup —
+     there is a most-recent-known-good copy of the stats to fall back to instead
+     of an empty page. The cache is separate from the service worker's own cache:
+     the service worker makes the app shell itself load offline, while this is
+     what lets app.js tell the difference between fresh and stale data and say so. */
+  async function loadLeagueData() {
+    try {
+      const res = await fetch(DATA_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const payload = await res.json();
+      if (!isValidPayload(payload)) {
+        return { payload: null, error: 'The data file has no completed gameweeks yet. Check back after the first deadline.' };
+      }
+      const fetchedAt = Date.now();
+      storageSet(CACHE_KEY, { payload, fetchedAt });
+      return { payload, stale: false, fetchedAt };
+    } catch (err) {
+      const cached = storageGet(CACHE_KEY);
+      if (cached && isValidPayload(cached.payload)) {
+        return { payload: cached.payload, stale: true, fetchedAt: cached.fetchedAt };
+      }
+      return { payload: null, error: `Could not load ${DATA_URL} — ${err.message}` };
+    }
+  }
+
+  /** Show or hide the "you're looking at stale data" banner. */
+  function setOfflineNotice(stale, fetchedAt) {
+    const box = el('offline-notice');
+    if (!stale) {
+      box.hidden = true;
+      return;
+    }
+    box.hidden = false;
+    const when = fetchedAt ? relativeTime(new Date(fetchedAt).toISOString()) : 'a previous visit';
+    // The network call can fail for reasons other than being offline (a bad
+    // deploy, GitHub Pages itself down), so only claim "offline" when the
+    // browser actually reports that.
+    box.textContent = navigator.onLine
+      ? `Could not reach the server — showing data from ${when}.`
+      : `You're offline — showing data from ${when}.`;
+  }
+
+  /** Drop a focus that no longer refers to a team in the current data. */
+  function pruneFocus() {
+    if (focusedEntry !== null && !data.teams.some((t) => t.entry === focusedEntry)) {
+      focusedEntry = null;
+      el('clear-focus').hidden = true;
+      savePrefs();
+    }
+  }
+
+  /* Fired on 'online'/'offline' and covers two cases: connectivity drops while
+     data already loaded fine (just show the banner, nothing to refetch yet),
+     and connectivity returns while showing a stale cache (quietly try to
+     refresh, and only bother the reader if that actually produces new data). */
+  async function handleConnectivityChange() {
+    if (!navigator.onLine) {
+      const cached = storageGet(CACHE_KEY);
+      setOfflineNotice(true, cached?.fetchedAt ?? null);
+      return;
+    }
+    const result = await loadLeagueData();
+    if (result.payload && !result.stale) {
+      data = result.payload;
+      pruneFocus();
+      renderHead();
+      render();
+      renderTable();
+    }
+    setOfflineNotice(Boolean(result.stale), result.fetchedAt);
+  }
+
+  /* ---------- service worker ---------- */
+
+  // Makes the app shell (this HTML/CSS/JS, not the data) load with no network
+  // at all, so the page opens instantly from a homescreen icon. Registration
+  // failure (unsupported browser, http instead of https) is not fatal — the
+  // page works the same, just without the offline app shell.
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+
   async function main() {
+    loadPrefs();
+    syncSegmentedControls();
+
     wireSegmented('measure', (next) => (next === measure ? false : ((measure = next), true)));
     wireSegmented('basis', (next) => (next === basis ? false : ((basis = next), true)));
     el('clear-focus').addEventListener('click', () => {
       focusedEntry = null;
       el('clear-focus').hidden = true;
+      savePrefs();
       render();
       renderTable();
     });
 
-    let payload;
-    try {
-      const res = await fetch(DATA_URL, { cache: 'no-cache' });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      payload = await res.json();
-    } catch (err) {
-      fail(`Could not load ${DATA_URL} — ${err.message}`);
+    registerServiceWorker();
+
+    const result = await loadLeagueData();
+    if (!result.payload) {
+      fail(result.error);
       return;
     }
 
-    if (!Array.isArray(payload.teams) || !Array.isArray(payload.gameweeks) || !payload.gameweeks.length) {
-      fail('The data file has no completed gameweeks yet. Check back after the first deadline.');
-      return;
-    }
+    data = result.payload;
+    pruneFocus();
+    el('clear-focus').hidden = focusedEntry === null;
 
-    data = payload;
     renderHead();
     render();
     renderTable();
+    setOfflineNotice(Boolean(result.stale), result.fetchedAt);
 
     // Re-resolve the palette when the OS theme flips under us.
     window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener?.('change', () => {
       render();
       renderTable();
     });
+
+    window.addEventListener('online', handleConnectivityChange);
+    window.addEventListener('offline', handleConnectivityChange);
   }
 
   main();

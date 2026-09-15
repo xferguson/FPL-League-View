@@ -1,0 +1,16 @@
+{
+  "name": "FPL League View",
+  "short_name": "FPL League",
+  "description": "Gameweek-by-gameweek points for an FPL mini-league, against the league and FPL averages.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f9f9f7",
+  "theme_color": "#0b5c26",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

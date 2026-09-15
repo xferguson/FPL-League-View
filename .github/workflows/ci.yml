@@ -24,7 +24,12 @@ jobs:
           node --check scripts/validate-data.mjs
 
       - name: Check the site's JavaScript parses
-        run: node --check site/app.js
+        run: |
+          node --check site/app.js
+          node --check site/sw.js
+
+      - name: Validate manifest.json is well-formed
+        run: node -e "JSON.parse(require('fs').readFileSync('site/manifest.json', 'utf8'))"
 
       - name: Exercise the fetcher's request plan without touching the network
         run: node scripts/fetch-data.mjs --dry-run
