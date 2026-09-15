@@ -8,9 +8,9 @@ on:
     - cron: '0 12,18 * * 1,2'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
+# Permissions are declared per job, not here: a top-level block sets every
+# unlisted permission to none, and the publish job below cannot then grant
+# itself the pages/id-token scopes the deploy needs.
 concurrency:
   group: refresh-data
   cancel-in-progress: false
@@ -18,6 +18,8 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
