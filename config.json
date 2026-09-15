@@ -1,10 +1,6 @@
 {
   "leagueId": 383398,
   "season": "auto",
-  "index": {
-    "pool": "played",
-    "multiplier": 11
-  },
   "requestDelayMs": 150,
   "userAgent": "FPL-League-View/1.0 (+https://github.com/xferguson/FPL-League-View)"
 }

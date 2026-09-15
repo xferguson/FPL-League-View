@@ -29,16 +29,23 @@
     <section class="card" aria-labelledby="chart-heading">
       <div class="card-head">
         <h2 id="chart-heading">Points by gameweek</h2>
-        <div class="segmented" role="group" aria-label="Chart mode">
-          <button type="button" id="mode-cumulative" class="seg is-active" aria-pressed="true">Cumulative</button>
-          <button type="button" id="mode-weekly" class="seg" aria-pressed="false">Per GW</button>
+        <div class="controls">
+          <div class="segmented" role="group" aria-label="What to plot">
+            <button type="button" class="seg is-active" data-measure="points" aria-pressed="true">Points</button>
+            <button type="button" class="seg" data-measure="league" aria-pressed="false">% Lg</button>
+            <button type="button" class="seg" data-measure="fpl" aria-pressed="false">% FPL</button>
+          </div>
+          <div class="segmented" role="group" aria-label="Running total or single gameweek">
+            <button type="button" class="seg is-active" data-basis="cumulative" aria-pressed="true">Cumulative</button>
+            <button type="button" class="seg" data-basis="gw" aria-pressed="false">Per GW</button>
+          </div>
         </div>
       </div>
 
       <p class="card-note" id="chart-note"></p>
 
       <div class="chart-box">
-        <canvas id="chart" role="img" aria-label="Line chart of cumulative points per gameweek for each team, with league average, overall FPL average and index baselines"></canvas>
+        <canvas id="chart" role="img" aria-label="Line chart of each team's score by gameweek, against the league average and the overall FPL average"></canvas>
       </div>
 
       <div class="legend" id="legend"></div>
@@ -53,14 +60,14 @@
       </div>
       <div class="table-wrap">
         <table id="standings">
-          <caption class="sr-only">League standings with season total, latest gameweek score and margin against the index baseline</caption>
+          <caption class="sr-only">League standings with season total, latest gameweek score and margin against the league average</caption>
           <thead>
             <tr>
               <th scope="col" class="num col-rank">#</th>
               <th scope="col" class="col-team">Team</th>
               <th scope="col" class="num col-total">Total</th>
               <th scope="col" class="num col-last">Last</th>
-              <th scope="col" class="num col-vs">vs Index</th>
+              <th scope="col" class="num col-vs">vs Lg</th>
             </tr>
           </thead>
           <tbody id="standings-body"></tbody>
@@ -69,16 +76,16 @@
     </section>
 
     <section class="card" aria-labelledby="baselines-heading">
-      <h2 id="baselines-heading">What the baselines mean</h2>
+      <h2 id="baselines-heading">What the views mean</h2>
       <dl class="defs">
         <dt>League average</dt>
         <dd>The mean score of the teams in this league each gameweek.</dd>
         <dt>FPL average</dt>
         <dd>The official average score across every FPL manager that gameweek.</dd>
-        <dt>Index</dt>
-        <dd id="index-def">A synthetic baseline: the mean score of every player who featured that
-          gameweek, times eleven &mdash; roughly what a team of eleven completely average
-          performers would have scored.</dd>
+        <dt>% Lg / % FPL</dt>
+        <dd>The same scores expressed as a percentage of that baseline. 100% is level with it,
+          120% is a fifth better. On the cumulative view this is the season-to-date ratio, which
+          settles down as the weeks add up; per gameweek it swings much harder.</dd>
       </dl>
     </section>
   </main>

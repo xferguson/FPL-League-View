@@ -603,7 +603,7 @@
     },
     {
       "entry": 2429649,
-      "name": "TākOffUrPantsnJaquet",
+      "name": "T\u0101kOffUrPantsnJaquet",
       "manager": "Jake Armstrong",
       "rank": 20,
       "total": 243,
@@ -754,36 +754,6 @@
         182,
         251
       ]
-    },
-    "index": {
-      "gw": [
-        34.1,
-        31.9,
-        33,
-        33
-      ],
-      "cumulative": [
-        34.1,
-        66,
-        99,
-        132
-      ]
     }
-  },
-  "indexDetail": {
-    "pool": "played",
-    "multiplier": 11,
-    "playedMean": [
-      3.1,
-      2.9,
-      3,
-      3
-    ],
-    "allMean": [
-      1.6,
-      1.4,
-      1.4,
-      1.4
-    ]
   }
 }

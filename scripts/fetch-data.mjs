@@ -8,14 +8,12 @@
 //   node scripts/fetch-data.mjs --dry-run   # print the request plan, touch no network
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = resolve(ROOT, 'site/data');
 const OUT_FILE = resolve(DATA_DIR, 'league.json');
-const CACHE_FILE = resolve(DATA_DIR, 'index-cache.json');
 const API = 'https://fantasy.premierleague.com/api';
 
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -78,17 +76,6 @@ function seasonLabel(events) {
   return `${year}/${String((year + 1) % 100).padStart(2, '0')}`;
 }
 
-async function loadCache() {
-  if (!existsSync(CACHE_FILE)) return {};
-  try {
-    const parsed = JSON.parse(await readFile(CACHE_FILE, 'utf8'));
-    return parsed.gameweeks ?? {};
-  } catch {
-    console.warn('  index cache unreadable, rebuilding from scratch');
-    return {};
-  }
-}
-
 async function main() {
   console.log(`Fetching FPL data for league ${config.leagueId}${DRY_RUN ? ' (dry run)' : ''}`);
 
@@ -104,8 +91,6 @@ async function main() {
     console.log('No completed gameweeks yet — leaving existing data in place.');
     return;
   }
-  // Dry runs have no live data, so exercise the request plan over a plausible span.
-  const planGws = DRY_RUN ? [1, 2, 3] : gameweeks;
 
   // 2. League standings (paginated).
   const entries = [];
@@ -172,34 +157,6 @@ async function main() {
   }
   teams.sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9));
 
-  // 4. Player means per GW -> the index. Finished GWs never change, so cache them.
-  const cache = await loadCache();
-  const playedMean = [];
-  const allMean = [];
-  for (const id of planGws) {
-    let stats = cache[id];
-    if (!stats) {
-      const live = await api(`/event/${id}/live/`);
-      if (DRY_RUN) {
-        playedMean.push(null);
-        allMean.push(null);
-        continue;
-      }
-      const elements = live.elements ?? [];
-      const played = elements.filter((el) => (el.stats?.minutes ?? 0) > 0);
-      const sum = (list) => list.reduce((acc, el) => acc + (el.stats?.total_points ?? 0), 0);
-      stats = {
-        playedMean: played.length ? sum(played) / played.length : null,
-        allMean: elements.length ? sum(elements) / elements.length : null,
-        playedCount: played.length,
-        totalCount: elements.length,
-      };
-      cache[id] = stats;
-    }
-    playedMean.push(round1(stats.playedMean));
-    allMean.push(round1(stats.allMean));
-  }
-
   if (DRY_RUN) {
     console.log(`\nWould issue ${planned.length} request(s):`);
     for (const url of planned) console.log(`  GET ${url}`);
@@ -207,12 +164,7 @@ async function main() {
     return;
   }
 
-  const multiplier = config.index?.multiplier ?? 11;
-  const pool = config.index?.pool === 'all' ? 'all' : 'played';
-  const poolMean = pool === 'all' ? allMean : playedMean;
-  const indexGw = poolMean.map((m) => (m === null ? null : round1(m * multiplier)));
-
-  // 5. League average per GW, over the teams that actually have a score that week.
+  // 4. League average per GW, over the teams that actually have a score that week.
   const leagueAverageGw = gameweeks.map((_, i) => {
     const scores = teams.map((t) => t.gw[i]).filter((v) => v !== null && v !== undefined);
     if (!scores.length) return null;
@@ -228,17 +180,11 @@ async function main() {
     series: {
       leagueAverage: { gw: leagueAverageGw, cumulative: runningTotal(leagueAverageGw) },
       fplAverage: { gw: fplAverageGw, cumulative: runningTotal(fplAverageGw) },
-      index: { gw: indexGw, cumulative: runningTotal(indexGw) },
     },
-    indexDetail: { pool, multiplier, playedMean, allMean },
   };
 
   await mkdir(DATA_DIR, { recursive: true });
   await writeFile(OUT_FILE, `${JSON.stringify(payload, null, 2)}\n`);
-  await writeFile(
-    CACHE_FILE,
-    `${JSON.stringify({ note: 'Per-GW player means. Finished gameweeks are immutable, so they are fetched once.', gameweeks: cache }, null, 2)}\n`
-  );
 
   console.log(`Wrote ${OUT_FILE}`);
   console.log(`  ${teams.length} teams, GW ${gameweeks[0]}-${gameweeks.at(-1)}, ${planned.length} requests`);

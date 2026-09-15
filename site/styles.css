@@ -213,7 +213,15 @@ h2 {
   line-height: 1.45;
 }
 
-/* ---------- segmented control ---------- */
+/* ---------- segmented controls ---------- */
+
+/* Two groups rather than one six-way switch: three measures x two bases. Six
+   buttons in a single row does not fit a phone. */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
 .segmented {
   display: inline-flex;

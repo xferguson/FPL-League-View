@@ -1,9 +1,11 @@
 # FPL League View
 
-A static site that charts an FPL mini-league gameweek by gameweek, against three
-baselines: the league average, the overall FPL average, and an **index** — the mean
-score of every player who featured that week, times eleven, standing in for a team of
-eleven completely average performers.
+A static site that charts an FPL mini-league gameweek by gameweek against two baselines:
+the league average and the overall FPL average.
+
+Six views, from two controls: **Points**, **% Lg** or **% FPL**, each either **Cumulative**
+or **Per GW**. In a percentage view the chosen baseline is a flat 100% line and every team
+is read against it.
 
 Built for reading on a phone. No backend, no build step: the page loads one JSON file.
 
@@ -29,14 +31,13 @@ time. Until that runs, the site shows clearly-labelled placeholder numbers.
 ## How it fits together
 
 ```
-config.json                  league id and index settings
+config.json                  league id and request settings
 scripts/fetch-data.mjs       FPL API  ->  site/data/league.json
 scripts/validate-data.mjs    invariant checks on that file
 site/                        exactly what gets published
   index.html  styles.css  app.js
   vendor/chart.umd.js        Chart.js 4.4.7, vendored
   data/league.json           the only file the page loads
-  data/index-cache.json      per-GW player means (generated; safe to delete)
 ```
 
 Nothing in `scripts/` ever reaches the browser. It runs in Actions, writes JSON, and
@@ -74,18 +75,10 @@ No dependencies to install — the scripts are plain Node 22, and Chart.js is ve
 {
   "leagueId": 383398,
   "season": "auto",        // or a literal like "2025/26"
-  "index": {
-    "pool": "played",      // "played" = players with minutes > 0; "all" = everyone
-    "multiplier": 11
-  }
+  "requestDelayMs": 150,   // pacing between FPL API calls
+  "userAgent": "..."
 }
 ```
-
-`pool` is the interesting knob. `"played"` averages only players who actually featured,
-giving an index around 30–35 points a week — a realistic baseline. `"all"` averages every
-player in the game including the ones who never left the bench, which drags the mean to
-roughly 1.2 and the index to the mid-teens. Both means are stored on every fetch, so
-switching `pool` and re-running costs no extra API calls.
 
 ## The data file
 
@@ -107,11 +100,8 @@ switching `pool` and re-running costs no extra API calls.
   }],
   "series": {
     "leagueAverage": { "gw": [...], "cumulative": [...] },
-    "fplAverage":    { "gw": [...], "cumulative": [...] },
-    "index":         { "gw": [...], "cumulative": [...] }
-  },
-  "indexDetail": { "pool": "played", "multiplier": 11,
-                   "playedMean": [...], "allMean": [...] }
+    "fplAverage":    { "gw": [...], "cumulative": [...] }
+  }
 }
 ```
 
@@ -130,9 +120,12 @@ zero. Per-gameweek team scores are net of transfer hits, matching the official s
 - **Twenty-odd lines cannot be told apart by hue alone** — no palette can do that, which
   is why the style channel exists. For reading one team, tap its row in the standings
   table: it thickens and everything else recedes.
-- **The three baselines** lead the legend, where they are easiest to find. They are
+- **The two baselines** lead the legend, where they are easiest to find. They are
   reference lines rather than competitors, so they stay neutral — no team is ever
   neutral — and are drawn heavier than the team lines, because against that many
   coloured series a thin grey line disappears.
+- **Percentage views bound their own y-axis** around the data, always keeping 100% in
+  frame. Left to itself Chart.js rounds the axis floor down to zero and squashes every
+  line into the top third of the plot.
 - **Light and dark** are separate palettes stepped for their own surface, not an
   automatic inversion. The page follows the OS setting.

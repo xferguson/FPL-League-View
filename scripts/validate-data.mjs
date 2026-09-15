@@ -64,7 +64,7 @@ for (const team of data.teams ?? []) {
   }
 }
 
-for (const key of ['leagueAverage', 'fplAverage', 'index']) {
+for (const key of ['leagueAverage', 'fplAverage']) {
   const s = data.series?.[key];
   if (!s) {
     fail(`series.${key} missing`);
@@ -81,23 +81,6 @@ for (const key of ['leagueAverage', 'fplAverage', 'index']) {
     const c = s.cumulative?.[i];
     if (c !== null && c !== undefined && !near(sum, c)) {
       fail(`series.${key} GW${gws[i]}: cumulative ${c} != running sum ${Math.round(sum * 10) / 10}`);
-    }
-  }
-}
-
-// The index is the whole point of the site: verify it really is mean x multiplier.
-const detail = data.indexDetail;
-if (!detail) {
-  fail('indexDetail missing');
-} else {
-  const pool = detail.pool === 'all' ? detail.allMean : detail.playedMean;
-  checkLength(`indexDetail.${detail.pool === 'all' ? 'allMean' : 'playedMean'}`, pool);
-  for (let i = 0; i < n; i += 1) {
-    const mean = pool?.[i];
-    const idx = data.series?.index?.gw?.[i];
-    if (mean === null || mean === undefined || idx === null || idx === undefined) continue;
-    if (!near(mean * detail.multiplier, idx, 0.15)) {
-      fail(`index GW${gws[i]}: ${idx} != ${mean} x ${detail.multiplier}`);
     }
   }
 }
@@ -120,7 +103,7 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `OK — ${data.teams.length} teams, GW ${gws[0]}-${gws.at(-1)}, ` +
-    `index pool "${detail?.pool}" x${detail?.multiplier}${data.sample ? ' (sample data)' : ''}` +
+  `OK — ${data.teams.length} teams, GW ${gws[0]}-${gws.at(-1)}` +
+    `${data.sample ? ' (sample data)' : ''}` +
     `${warnings.length ? `, ${warnings.length} warning(s)` : ''}`
 );

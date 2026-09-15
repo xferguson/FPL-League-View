@@ -20,7 +20,8 @@
 
   let data = null;
   let chart = null;
-  let mode = 'cumulative'; // 'cumulative' | 'gw'
+  let measure = 'points'; // 'points' | 'league' | 'fpl' — what the y-axis counts
+  let basis = 'cumulative'; // 'cumulative' | 'gw' — running total or single week
   let focusedEntry = null; // entry id of the team singled out, or null
   const hidden = new Set(); // dataset keys switched off via the legend
 
@@ -46,6 +47,7 @@
     return null;
   };
   const fmt = (v) => (isNum(v) ? (Number.isInteger(v) ? String(v) : v.toFixed(1)) : '–');
+  const fmtValue = (v) => (isNum(v) ? (isPercent() ? `${v.toFixed(1)}%` : fmt(v)) : '–');
 
   function relativeTime(iso) {
     const then = new Date(iso);
@@ -61,14 +63,13 @@
 
   /* ---------- series assembly ---------- */
 
-  /* The three baselines are reference lines, not competitors, so they stay
+  /* The baselines are reference lines, not competitors, so they stay
      neutral — no team is ever neutral, which is what separates the two groups.
      They are drawn heavier than the team lines because against twenty-odd
      coloured series a thin grey line simply disappears. */
   function baselineSpecs(p) {
     return [
-      { key: 'index', label: 'Index', color: p.primary, dash: [], width: 3, style: 'solid' },
-      { key: 'leagueAverage', label: 'League average', color: p.secondary, dash: [8, 4], width: 2.75, style: 'dashed' },
+      { key: 'leagueAverage', label: 'League average', color: p.primary, dash: [8, 4], width: 2.75, style: 'dashed' },
       { key: 'fplAverage', label: 'FPL average', color: p.secondary, dash: [1, 4], width: 2.75, style: 'dotted' },
     ];
   }
@@ -80,8 +81,30 @@
     return { color: p.series[index % TEAM_HUES], dash: style.dash, styleName: style.name };
   }
 
+  const isPercent = () => measure !== 'points';
+
+  /** The series everything is measured against, or null in plain points mode. */
+  function denominatorSeries() {
+    if (measure === 'league') return data.series?.leagueAverage;
+    if (measure === 'fpl') return data.series?.fplAverage;
+    return null;
+  }
+
+  const rawValues = (source) => (basis === 'cumulative' ? source.cumulative : source.gw) ?? [];
+
+  /* In points mode this is the score itself; otherwise it is that score over the
+     chosen baseline, as a percentage. The baseline's own line therefore sits flat
+     at 100, which is exactly the reference the reader wants to see. */
   function values(source) {
-    return mode === 'cumulative' ? source.cumulative : source.gw;
+    const raw = rawValues(source);
+    const denom = denominatorSeries();
+    if (!denom) return raw;
+    const scale = rawValues(denom);
+    return raw.map((v, i) => {
+      const d = scale[i];
+      if (v === null || v === undefined || d === null || d === undefined || d === 0) return null;
+      return Math.round((v / d) * 1000) / 10;
+    });
   }
 
   function buildDatasets(p) {
@@ -188,7 +211,20 @@
     return item.parsed.y >= scores[TOOLTIP_TEAMS - 1];
   }
 
-  function chartOptions(p) {
+  /* Chart.js rounds an axis minimum down to a round number, which on a
+     percentage view drags the floor to 0 and squashes every line into the top
+     third. Bound it to the data instead, always keeping 100% in view since that
+     is the line everything is read against. */
+  function percentBounds(datasets) {
+    const vals = datasets.filter((d) => !d.hidden).flatMap((d) => d.data).filter(isNum);
+    if (!vals.length) return {};
+    const lo = Math.min(...vals, 100);
+    const hi = Math.max(...vals, 100);
+    const pad = Math.max((hi - lo) * 0.08, 2);
+    return { min: Math.floor((lo - pad) / 10) * 10, max: Math.ceil((hi + pad) / 10) * 10 };
+  }
+
+  function chartOptions(p, bounds = {}) {
     return {
       responsive: true,
       maintainAspectRatio: false,
@@ -208,7 +244,8 @@
           },
         },
         y: {
-          beginAtZero: mode === 'gw',
+          beginAtZero: measure === 'points' && basis === 'gw',
+          ...bounds,
           grid: { color: p.grid, drawTicks: false },
           border: { display: false, dash: [] },
           ticks: {
@@ -216,6 +253,7 @@
             font: { size: 11 },
             padding: 8,
             maxTicksLimit: 6,
+            callback: (v) => (isPercent() ? `${v}%` : v),
           },
         },
       },
@@ -238,7 +276,7 @@
           callbacks: {
             title: (items) => `Gameweek ${items[0].label}`,
             // Value leads, name follows: the reader already knows the series.
-            label: (ctx) => `${fmt(ctx.parsed.y)}   ${ctx.dataset.label}`,
+            label: (ctx) => `${fmtValue(ctx.parsed.y)}   ${ctx.dataset.label}`,
           },
         },
       },
@@ -255,7 +293,7 @@
     chart = new Chart(ctx, {
       type: 'line',
       data: { labels, datasets },
-      options: chartOptions(p),
+      options: chartOptions(p, isPercent() ? percentBounds(datasets) : {}),
       plugins: [crosshair],
     });
     chart.$viz = p;
@@ -298,17 +336,25 @@
 
   }
 
+  const MEASURE_LABEL = { points: 'points', league: 'the league average', fpl: 'the FPL average' };
+
+  const MEASURE_HEADING = {
+    points: 'Points by gameweek',
+    league: '% of league average',
+    fpl: '% of FPL average',
+  };
+
   function renderNote() {
-    const detail = data.indexDetail ?? {};
-    const pool = detail.pool === 'all' ? 'every player in the game' : 'every player who featured';
-    el('chart-note').textContent =
-      mode === 'cumulative'
-        ? 'Running season total after each gameweek.'
-        : 'Points scored in each individual gameweek.';
-    el('index-def').textContent =
-      `A synthetic baseline: the mean score of ${pool} that gameweek, times ` +
-      `${detail.multiplier ?? 11} — roughly what a team of ${detail.multiplier ?? 11} completely ` +
-      'average performers would have scored.';
+    const cumulative = basis === 'cumulative';
+    el('chart-heading').textContent = MEASURE_HEADING[measure];
+    const note = measure === 'points'
+      ? (cumulative
+          ? 'Running season total after each gameweek.'
+          : 'Points scored in each individual gameweek.')
+      : (cumulative
+          ? `Season total so far as a percentage of ${MEASURE_LABEL[measure]} over the same weeks. 100% is level with it.`
+          : `Each gameweek's score as a percentage of ${MEASURE_LABEL[measure]} that week. 100% is level with it.`);
+    el('chart-note').textContent = note;
   }
 
   /* ---------- table ---------- */
@@ -318,7 +364,7 @@
     const body = el('standings-body');
     body.replaceChildren();
 
-    const indexTotal = lastValue(data.series?.index?.cumulative ?? []);
+    const leagueTotal = lastValue(data.series?.leagueAverage?.cumulative ?? []);
 
     data.teams.forEach((team, i) => {
       const row = document.createElement('tr');
@@ -360,8 +406,8 @@
 
       const vs = document.createElement('td');
       vs.className = 'num';
-      if (isNum(cumulative) && isNum(indexTotal)) {
-        const diff = cumulative - indexTotal;
+      if (isNum(cumulative) && isNum(leagueTotal)) {
+        const diff = cumulative - leagueTotal;
         vs.textContent = `${diff >= 0 ? '+' : '−'}${fmt(Math.abs(diff))}`;
         vs.classList.add(diff >= 0 ? 'pos' : 'neg');
       } else {
@@ -449,15 +495,22 @@
 
   /* ---------- wiring ---------- */
 
-  function setMode(next) {
-    if (mode === next) return;
-    mode = next;
-    const cumulative = next === 'cumulative';
-    el('mode-cumulative').classList.toggle('is-active', cumulative);
-    el('mode-weekly').classList.toggle('is-active', !cumulative);
-    el('mode-cumulative').setAttribute('aria-pressed', String(cumulative));
-    el('mode-weekly').setAttribute('aria-pressed', String(!cumulative));
-    render();
+  /* Both controls work the same way: mark the pressed button, store the choice,
+     redraw. Three measures x two bases gives the six views. */
+  function wireSegmented(attr, apply) {
+    const buttons = [...document.querySelectorAll(`[data-${attr}]`)];
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const next = button.dataset[attr];
+        if (!apply(next)) return;
+        for (const other of buttons) {
+          const on = other === button;
+          other.classList.toggle('is-active', on);
+          other.setAttribute('aria-pressed', String(on));
+        }
+        render();
+      });
+    }
   }
 
   function fail(message) {
@@ -467,8 +520,8 @@
   }
 
   async function main() {
-    el('mode-cumulative').addEventListener('click', () => setMode('cumulative'));
-    el('mode-weekly').addEventListener('click', () => setMode('gw'));
+    wireSegmented('measure', (next) => (next === measure ? false : ((measure = next), true)));
+    wireSegmented('basis', (next) => (next === basis ? false : ((basis = next), true)));
     el('clear-focus').addEventListener('click', () => {
       focusedEntry = null;
       el('clear-focus').hidden = true;
