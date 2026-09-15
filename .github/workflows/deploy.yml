@@ -2,7 +2,13 @@ name: Deploy site
 
 on:
   push:
-    branches: [main]
+    # Both names, deliberately: the github-pages environment (below) only
+    # allows a deploy to actually run against the repository's real default
+    # branch, and that is still claude/fpl-league-website-6fub8a until the
+    # default is switched to main in the repo settings. Listing both means
+    # push-triggered deploys keep working before and after that switch,
+    # rather than silently going dead for whichever name isn't current.
+    branches: [main, claude/fpl-league-website-6fub8a]
     paths:
       - 'site/**'
       - '.github/workflows/deploy.yml'
