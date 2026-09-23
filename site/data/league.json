@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T20:57:09.319Z",
+  "generatedAt": "2026-09-23T10:25:13.984Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -329,41 +329,6 @@
       ]
     },
     {
-      "entry": 4393279,
-      "name": "Allez Les Fous",
-      "manager": "Kathryn Ferguson",
-      "rank": 10,
-      "total": 331,
-      "gw": [
-        42,
-        113,
-        62,
-        58,
-        56
-      ],
-      "cumulative": [
-        42,
-        155,
-        217,
-        275,
-        331
-      ],
-      "bench": [
-        2,
-        3,
-        17,
-        1,
-        0
-      ],
-      "overallRank": [
-        6633922,
-        1474311,
-        801253,
-        2321047,
-        1794310
-      ]
-    },
-    {
       "entry": 5931087,
       "name": "The Showman",
       "manager": "Greg Bowman",
@@ -395,6 +360,41 @@
         3345863,
         2764238,
         2015144,
+        1794310
+      ]
+    },
+    {
+      "entry": 4393279,
+      "name": "Allez Les Fous",
+      "manager": "Kathryn Ferguson",
+      "rank": 10,
+      "total": 331,
+      "gw": [
+        42,
+        113,
+        62,
+        58,
+        56
+      ],
+      "cumulative": [
+        42,
+        155,
+        217,
+        275,
+        331
+      ],
+      "bench": [
+        2,
+        3,
+        17,
+        1,
+        0
+      ],
+      "overallRank": [
+        6633922,
+        1474311,
+        801253,
+        2321047,
         1794310
       ]
     },
