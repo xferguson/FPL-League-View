@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T12:14:18.367Z",
+  "generatedAt": "2026-10-10T11:32:59.762Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -367,7 +367,7 @@
       "entry": 4393279,
       "name": "Allez Les Fous",
       "manager": "Kathryn Ferguson",
-      "rank": 10,
+      "rank": 11,
       "total": 331,
       "gw": [
         42,
@@ -714,45 +714,10 @@
       ]
     },
     {
-      "entry": 3160612,
-      "name": "Haaland & Oates",
-      "manager": "Peter Gotfredson",
-      "rank": 21,
-      "total": 277,
-      "gw": [
-        45,
-        64,
-        45,
-        66,
-        57
-      ],
-      "cumulative": [
-        45,
-        109,
-        154,
-        220,
-        277
-      ],
-      "bench": [
-        17,
-        22,
-        5,
-        11,
-        0
-      ],
-      "overallRank": [
-        5859109,
-        7232515,
-        7602511,
-        7279083,
-        6529417
-      ]
-    },
-    {
       "entry": 5033290,
       "name": "Mercuri-al Rising",
       "manager": "Ben Mercuri",
-      "rank": 22,
+      "rank": 21,
       "total": 265,
       "gw": [
         63,
@@ -781,6 +746,41 @@
         6382712,
         6950526,
         7338350
+      ]
+    },
+    {
+      "entry": 3160612,
+      "name": "Haaland & Oates",
+      "manager": "Peter Gotfredson",
+      "rank": 22,
+      "total": 261,
+      "gw": [
+        45,
+        64,
+        45,
+        66,
+        57
+      ],
+      "cumulative": [
+        45,
+        109,
+        154,
+        220,
+        277
+      ],
+      "bench": [
+        17,
+        22,
+        5,
+        11,
+        0
+      ],
+      "overallRank": [
+        5859109,
+        7232515,
+        7602511,
+        7279083,
+        6529417
       ]
     },
     {
