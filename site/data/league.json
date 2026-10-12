@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T13:47:48.298Z",
+  "generatedAt": "2026-10-12T20:58:41.517Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -88,7 +88,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 432,
+      "total": 436,
       "gw": [
         59,
         116,
@@ -154,10 +154,45 @@
       ]
     },
     {
+      "entry": 3571176,
+      "name": "While Romero Burns",
+      "manager": "Jason Mohr",
+      "rank": 5,
+      "total": 414,
+      "gw": [
+        42,
+        114,
+        56,
+        88,
+        49
+      ],
+      "cumulative": [
+        42,
+        156,
+        212,
+        300,
+        349
+      ],
+      "bench": [
+        9,
+        0,
+        5,
+        2,
+        13
+      ],
+      "overallRank": [
+        6633922,
+        1383722,
+        1140407,
+        745361,
+        789362
+      ]
+    },
+    {
       "entry": 3916636,
       "name": "Call My Agent",
       "manager": "Alexander Ferguson",
-      "rank": 5,
+      "rank": 6,
       "total": 414,
       "gw": [
         55,
@@ -192,7 +227,7 @@
       "entry": 4289424,
       "name": "Great balls of fire!",
       "manager": "Pete  Mitchell",
-      "rank": 6,
+      "rank": 7,
       "total": 412,
       "gw": [
         76,
@@ -224,46 +259,11 @@
       ]
     },
     {
-      "entry": 3571176,
-      "name": "While Romero Burns",
-      "manager": "Jason Mohr",
-      "rank": 6,
-      "total": 412,
-      "gw": [
-        42,
-        114,
-        56,
-        88,
-        49
-      ],
-      "cumulative": [
-        42,
-        156,
-        212,
-        300,
-        349
-      ],
-      "bench": [
-        9,
-        0,
-        5,
-        2,
-        13
-      ],
-      "overallRank": [
-        6633922,
-        1383722,
-        1140407,
-        745361,
-        789362
-      ]
-    },
-    {
       "entry": 5931087,
       "name": "The Showman",
       "manager": "Greg Bowman",
       "rank": 8,
-      "total": 405,
+      "total": 409,
       "gw": [
         66,
         73,
@@ -368,7 +368,7 @@
       "name": "Full Gassers",
       "manager": "Bill G",
       "rank": 11,
-      "total": 385,
+      "total": 387,
       "gw": [
         47,
         83,
@@ -399,46 +399,11 @@
       ]
     },
     {
-      "entry": 3288357,
-      "name": "Boo Hoo Argentina",
-      "manager": "Peter Gotfredson",
-      "rank": 12,
-      "total": 384,
-      "gw": [
-        25,
-        99,
-        40,
-        99,
-        69
-      ],
-      "cumulative": [
-        25,
-        124,
-        164,
-        263,
-        332
-      ],
-      "bench": [
-        2,
-        9,
-        15,
-        5,
-        6
-      ],
-      "overallRank": [
-        8765561,
-        5438692,
-        6724977,
-        3430081,
-        1735975
-      ]
-    },
-    {
       "entry": 5671303,
       "name": "Aston Vanilla",
       "manager": "Nathan Hodnett",
-      "rank": 13,
-      "total": 383,
+      "rank": 12,
+      "total": 385,
       "gw": [
         59,
         107,
@@ -472,8 +437,8 @@
       "entry": 4393279,
       "name": "Allez Les Fous",
       "manager": "Kathryn Ferguson",
-      "rank": 14,
-      "total": 382,
+      "rank": 13,
+      "total": 384,
       "gw": [
         42,
         113,
@@ -501,6 +466,41 @@
         801253,
         2321047,
         1794310
+      ]
+    },
+    {
+      "entry": 3288357,
+      "name": "Boo Hoo Argentina",
+      "manager": "Peter Gotfredson",
+      "rank": 13,
+      "total": 384,
+      "gw": [
+        25,
+        99,
+        40,
+        99,
+        69
+      ],
+      "cumulative": [
+        25,
+        124,
+        164,
+        263,
+        332
+      ],
+      "bench": [
+        2,
+        9,
+        15,
+        5,
+        6
+      ],
+      "overallRank": [
+        8765561,
+        5438692,
+        6724977,
+        3430081,
+        1735975
       ]
     },
     {
@@ -578,7 +578,7 @@
       "name": "Free the Iraola",
       "manager": "Jack Furrh",
       "rank": 17,
-      "total": 363,
+      "total": 365,
       "gw": [
         53,
         67,
