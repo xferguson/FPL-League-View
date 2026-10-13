@@ -2,10 +2,8 @@ name: Refresh FPL data
 
 on:
   schedule:
-    # Once a day, and again through Monday/Tuesday when bonus points settle and
-    # the gameweek is finally marked data-checked.
-    - cron: '0 6 * * *'
-    - cron: '0 12,18 * * 1,2'
+    # Twice a day, every day: 06:00 and 18:00 UTC.
+    - cron: '0 6,18 * * *'
   workflow_dispatch:
 
 # Permissions are declared per job, not here: a top-level block sets every
