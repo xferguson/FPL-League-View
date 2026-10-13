@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T20:58:41.517Z",
+  "generatedAt": "2026-10-13T13:06:28.269Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -53,7 +53,7 @@
       "name": "Newcastles MadeOSand",
       "manager": "Tim Gotfredson",
       "rank": 2,
-      "total": 446,
+      "total": 448,
       "gw": [
         53,
         109,
@@ -88,7 +88,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 436,
+      "total": 439,
       "gw": [
         59,
         116,
@@ -228,7 +228,7 @@
       "name": "Great balls of fire!",
       "manager": "Pete  Mitchell",
       "rank": 7,
-      "total": 412,
+      "total": 413,
       "gw": [
         76,
         98,
@@ -368,7 +368,7 @@
       "name": "Full Gassers",
       "manager": "Bill G",
       "rank": 11,
-      "total": 387,
+      "total": 388,
       "gw": [
         47,
         83,
@@ -434,45 +434,45 @@
       ]
     },
     {
-      "entry": 4393279,
-      "name": "Allez Les Fous",
-      "manager": "Kathryn Ferguson",
-      "rank": 13,
-      "total": 384,
+      "entry": 5961863,
+      "name": "Jeremy Ping Pong",
+      "manager": "James Hixson",
+      "rank": 12,
+      "total": 385,
       "gw": [
-        42,
-        113,
-        62,
-        58,
-        56
+        46,
+        78,
+        54,
+        70,
+        63
       ],
       "cumulative": [
-        42,
-        155,
-        217,
-        275,
-        331
+        46,
+        124,
+        178,
+        248,
+        311
       ],
       "bench": [
+        0,
+        8,
         2,
-        3,
-        17,
-        1,
+        5,
         0
       ],
       "overallRank": [
-        6633922,
-        1474311,
-        801253,
-        2321047,
-        1794310
+        5572584,
+        5512019,
+        5117225,
+        4908971,
+        3453347
       ]
     },
     {
       "entry": 3288357,
       "name": "Boo Hoo Argentina",
       "manager": "Peter Gotfredson",
-      "rank": 13,
+      "rank": 14,
       "total": 384,
       "gw": [
         25,
@@ -504,10 +504,45 @@
       ]
     },
     {
+      "entry": 4393279,
+      "name": "Allez Les Fous",
+      "manager": "Kathryn Ferguson",
+      "rank": 14,
+      "total": 384,
+      "gw": [
+        42,
+        113,
+        62,
+        58,
+        56
+      ],
+      "cumulative": [
+        42,
+        155,
+        217,
+        275,
+        331
+      ],
+      "bench": [
+        2,
+        3,
+        17,
+        1,
+        0
+      ],
+      "overallRank": [
+        6633922,
+        1474311,
+        801253,
+        2321047,
+        1794310
+      ]
+    },
+    {
       "entry": 1985169,
       "name": "Double Elimination",
       "manager": "Orenthal James",
-      "rank": 15,
+      "rank": 16,
       "total": 380,
       "gw": [
         58,
@@ -536,41 +571,6 @@
         1961668,
         3623130,
         4100390
-      ]
-    },
-    {
-      "entry": 5961863,
-      "name": "Jeremy Ping Pong",
-      "manager": "James Hixson",
-      "rank": 16,
-      "total": 379,
-      "gw": [
-        46,
-        78,
-        54,
-        70,
-        63
-      ],
-      "cumulative": [
-        46,
-        124,
-        178,
-        248,
-        311
-      ],
-      "bench": [
-        0,
-        8,
-        2,
-        5,
-        0
-      ],
-      "overallRank": [
-        5572584,
-        5512019,
-        5117225,
-        4908971,
-        3453347
       ]
     },
     {
@@ -613,7 +613,7 @@
       "name": "The Lord Kickers",
       "manager": "Maggie McDonald",
       "rank": 18,
-      "total": 351,
+      "total": 357,
       "gw": [
         38,
         74,
@@ -683,7 +683,7 @@
       "name": "Gammie Loves Me More",
       "manager": "Casey Priore",
       "rank": 20,
-      "total": 341,
+      "total": 342,
       "gw": [
         62,
         68,
@@ -718,7 +718,7 @@
       "name": "Colorado Rapids",
       "manager": "Kyle Moore",
       "rank": 21,
-      "total": 324,
+      "total": 327,
       "gw": [
         37,
         67,
@@ -753,7 +753,7 @@
       "name": "Mercuri-al Rising",
       "manager": "Ben Mercuri",
       "rank": 22,
-      "total": 305,
+      "total": 314,
       "gw": [
         63,
         63,
