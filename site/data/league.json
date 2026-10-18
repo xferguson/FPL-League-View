@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T10:04:24.194Z",
+  "generatedAt": "2026-10-18T19:50:23.224Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -19,7 +19,7 @@
       "name": "What ru lkn @Butland",
       "manager": "Biff Tannen",
       "rank": 1,
-      "total": 481,
+      "total": 516,
       "gw": [
         63,
         119,
@@ -58,7 +58,7 @@
       "name": "Newcastles MadeOSand",
       "manager": "Tim Gotfredson",
       "rank": 2,
-      "total": 479,
+      "total": 505,
       "gw": [
         53,
         109,
@@ -97,7 +97,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 471,
+      "total": 497,
       "gw": [
         59,
         116,
@@ -132,89 +132,11 @@
       ]
     },
     {
-      "entry": 7978855,
-      "name": "Touch Grass",
-      "manager": "Colin Gotfred",
-      "rank": 4,
-      "total": 452,
-      "gw": [
-        57,
-        89,
-        57,
-        66,
-        78,
-        68
-      ],
-      "cumulative": [
-        57,
-        146,
-        203,
-        269,
-        347,
-        415
-      ],
-      "bench": [
-        2,
-        2,
-        7,
-        3,
-        6,
-        4
-      ],
-      "overallRank": [
-        2434397,
-        2439660,
-        2013325,
-        2868689,
-        866712,
-        865545
-      ]
-    },
-    {
-      "entry": 4289424,
-      "name": "Great balls of fire!",
-      "manager": "Pete  Mitchell",
-      "rank": 5,
-      "total": 447,
-      "gw": [
-        76,
-        98,
-        44,
-        78,
-        41,
-        76
-      ],
-      "cumulative": [
-        76,
-        174,
-        218,
-        296,
-        337,
-        413
-      ],
-      "bench": [
-        0,
-        21,
-        11,
-        12,
-        15,
-        15
-      ],
-      "overallRank": [
-        201604,
-        338418,
-        759785,
-        931518,
-        1425491,
-        946821
-      ]
-    },
-    {
       "entry": 3571176,
       "name": "While Romero Burns",
       "manager": "Jason Mohr",
-      "rank": 6,
-      "total": 444,
+      "rank": 4,
+      "total": 488,
       "gw": [
         42,
         114,
@@ -249,11 +171,50 @@
       ]
     },
     {
+      "entry": 7978855,
+      "name": "Touch Grass",
+      "manager": "Colin Gotfred",
+      "rank": 5,
+      "total": 484,
+      "gw": [
+        57,
+        89,
+        57,
+        66,
+        78,
+        68
+      ],
+      "cumulative": [
+        57,
+        146,
+        203,
+        269,
+        347,
+        415
+      ],
+      "bench": [
+        2,
+        2,
+        7,
+        3,
+        6,
+        4
+      ],
+      "overallRank": [
+        2434397,
+        2439660,
+        2013325,
+        2868689,
+        866712,
+        865545
+      ]
+    },
+    {
       "entry": 5931087,
       "name": "The Showman",
       "manager": "Greg Bowman",
-      "rank": 7,
-      "total": 444,
+      "rank": 6,
+      "total": 477,
       "gw": [
         66,
         73,
@@ -288,167 +249,50 @@
       ]
     },
     {
-      "entry": 5698733,
-      "name": "Full Gassers",
-      "manager": "Bill G",
-      "rank": 8,
-      "total": 435,
+      "entry": 4289424,
+      "name": "Great balls of fire!",
+      "manager": "Pete  Mitchell",
+      "rank": 7,
+      "total": 475,
       "gw": [
-        47,
-        83,
-        69,
-        68,
-        51,
-        70
-      ],
-      "cumulative": [
-        47,
-        130,
-        199,
-        267,
-        318,
-        388
-      ],
-      "bench": [
-        2,
-        0,
-        0,
-        1,
-        1,
-        1
-      ],
-      "overallRank": [
-        5282775,
-        4603574,
-        2462198,
-        3077476,
-        2852626,
-        2327833
-      ]
-    },
-    {
-      "entry": 5961863,
-      "name": "Jeremy Ping Pong",
-      "manager": "James Hixson",
-      "rank": 9,
-      "total": 434,
-      "gw": [
-        46,
-        78,
-        54,
-        70,
-        63,
-        74
-      ],
-      "cumulative": [
-        46,
-        124,
-        178,
-        248,
-        311,
-        385
-      ],
-      "bench": [
-        0,
-        8,
-        2,
-        5,
-        0,
-        2
-      ],
-      "overallRank": [
-        5572584,
-        5512019,
-        5117225,
-        4908971,
-        3453347,
-        2549625
-      ]
-    },
-    {
-      "entry": 2403816,
-      "name": "Adobe Goalposts",
-      "manager": "Jeffrey Becker",
-      "rank": 10,
-      "total": 431,
-      "gw": [
-        54,
-        101,
+        76,
+        98,
         44,
-        92,
-        48,
-        55
+        78,
+        41,
+        76
       ],
       "cumulative": [
-        54,
-        155,
-        199,
-        291,
-        339,
-        394
+        76,
+        174,
+        218,
+        296,
+        337,
+        413
       ],
       "bench": [
-        7,
-        23,
-        16,
-        9,
-        8,
-        7
+        0,
+        21,
+        11,
+        12,
+        15,
+        15
       ],
       "overallRank": [
-        3208418,
-        1474311,
-        2462198,
-        1204199,
-        1286426,
-        1957920
-      ]
-    },
-    {
-      "entry": 3916636,
-      "name": "Call My Agent",
-      "manager": "Alexander Ferguson",
-      "rank": 11,
-      "total": 428,
-      "gw": [
-        55,
-        87,
-        56,
-        106,
-        58,
-        52
-      ],
-      "cumulative": [
-        55,
-        142,
-        198,
-        304,
-        362,
-        414
-      ],
-      "bench": [
-        2,
-        2,
-        18,
-        -2,
-        7,
-        7
-      ],
-      "overallRank": [
-        2935782,
-        2944993,
-        2523055,
-        597579,
-        359801,
-        917890
+        201604,
+        338418,
+        759785,
+        931518,
+        1425491,
+        946821
       ]
     },
     {
       "entry": 3160066,
       "name": "Strugglers United FC",
       "manager": "Leo Barthel",
-      "rank": 12,
-      "total": 426,
+      "rank": 8,
+      "total": 462,
       "gw": [
         58,
         101,
@@ -483,50 +327,50 @@
       ]
     },
     {
-      "entry": 4393279,
-      "name": "Allez Les Fous",
-      "manager": "Kathryn Ferguson",
-      "rank": 13,
-      "total": 424,
+      "entry": 2403816,
+      "name": "Adobe Goalposts",
+      "manager": "Jeffrey Becker",
+      "rank": 9,
+      "total": 457,
       "gw": [
-        42,
-        113,
-        62,
-        58,
-        56,
-        53
+        54,
+        101,
+        44,
+        92,
+        48,
+        55
       ],
       "cumulative": [
-        42,
+        54,
         155,
-        217,
-        275,
-        331,
-        384
+        199,
+        291,
+        339,
+        394
       ],
       "bench": [
-        2,
-        3,
-        17,
-        1,
-        0,
-        3
+        7,
+        23,
+        16,
+        9,
+        8,
+        7
       ],
       "overallRank": [
-        6633922,
+        3208418,
         1474311,
-        801253,
-        2321047,
-        1794310,
-        2601076
+        2462198,
+        1204199,
+        1286426,
+        1957920
       ]
     },
     {
       "entry": 5671303,
       "name": "Aston Vanilla",
       "manager": "Nathan Hodnett",
-      "rank": 14,
-      "total": 421,
+      "rank": 10,
+      "total": 456,
       "gw": [
         59,
         107,
@@ -561,11 +405,50 @@
       ]
     },
     {
+      "entry": 5961863,
+      "name": "Jeremy Ping Pong",
+      "manager": "James Hixson",
+      "rank": 11,
+      "total": 451,
+      "gw": [
+        46,
+        78,
+        54,
+        70,
+        63,
+        74
+      ],
+      "cumulative": [
+        46,
+        124,
+        178,
+        248,
+        311,
+        385
+      ],
+      "bench": [
+        0,
+        8,
+        2,
+        5,
+        0,
+        2
+      ],
+      "overallRank": [
+        5572584,
+        5512019,
+        5117225,
+        4908971,
+        3453347,
+        2549625
+      ]
+    },
+    {
       "entry": 3288357,
       "name": "Boo Hoo Argentina",
       "manager": "Peter Gotfredson",
-      "rank": 15,
-      "total": 418,
+      "rank": 12,
+      "total": 450,
       "gw": [
         25,
         99,
@@ -600,11 +483,128 @@
       ]
     },
     {
+      "entry": 3916636,
+      "name": "Call My Agent",
+      "manager": "Alexander Ferguson",
+      "rank": 13,
+      "total": 450,
+      "gw": [
+        55,
+        87,
+        56,
+        106,
+        58,
+        52
+      ],
+      "cumulative": [
+        55,
+        142,
+        198,
+        304,
+        362,
+        414
+      ],
+      "bench": [
+        2,
+        2,
+        18,
+        -2,
+        7,
+        7
+      ],
+      "overallRank": [
+        2935782,
+        2944993,
+        2523055,
+        597579,
+        359801,
+        917890
+      ]
+    },
+    {
+      "entry": 5698733,
+      "name": "Full Gassers",
+      "manager": "Bill G",
+      "rank": 14,
+      "total": 449,
+      "gw": [
+        47,
+        83,
+        69,
+        68,
+        51,
+        70
+      ],
+      "cumulative": [
+        47,
+        130,
+        199,
+        267,
+        318,
+        388
+      ],
+      "bench": [
+        2,
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "overallRank": [
+        5282775,
+        4603574,
+        2462198,
+        3077476,
+        2852626,
+        2327833
+      ]
+    },
+    {
+      "entry": 4393279,
+      "name": "Allez Les Fous",
+      "manager": "Kathryn Ferguson",
+      "rank": 15,
+      "total": 448,
+      "gw": [
+        42,
+        113,
+        62,
+        58,
+        56,
+        53
+      ],
+      "cumulative": [
+        42,
+        155,
+        217,
+        275,
+        331,
+        384
+      ],
+      "bench": [
+        2,
+        3,
+        17,
+        1,
+        0,
+        3
+      ],
+      "overallRank": [
+        6633922,
+        1474311,
+        801253,
+        2321047,
+        1794310,
+        2601076
+      ]
+    },
+    {
       "entry": 7071677,
       "name": "Free the Iraola",
       "manager": "Jack Furrh",
       "rank": 16,
-      "total": 395,
+      "total": 436,
       "gw": [
         53,
         67,
@@ -639,50 +639,11 @@
       ]
     },
     {
-      "entry": 2429649,
-      "name": "TākOffUrPantsnJaquet",
-      "manager": "Jake Armstrong",
-      "rank": 17,
-      "total": 393,
-      "gw": [
-        42,
-        74,
-        43,
-        84,
-        47,
-        60
-      ],
-      "cumulative": [
-        42,
-        116,
-        159,
-        243,
-        290,
-        350
-      ],
-      "bench": [
-        11,
-        10,
-        12,
-        11,
-        13,
-        7
-      ],
-      "overallRank": [
-        6633922,
-        6564705,
-        7238481,
-        5415832,
-        5437518,
-        5194807
-      ]
-    },
-    {
       "entry": 1985169,
       "name": "Double Elimination",
       "manager": "Orenthal James",
-      "rank": 18,
-      "total": 388,
+      "rank": 17,
+      "total": 432,
       "gw": [
         58,
         100,
@@ -717,50 +678,50 @@
       ]
     },
     {
-      "entry": 7528423,
-      "name": "Gammie Loves Me More",
-      "manager": "Casey Priore",
-      "rank": 19,
-      "total": 384,
+      "entry": 2429649,
+      "name": "TākOffUrPantsnJaquet",
+      "manager": "Jake Armstrong",
+      "rank": 18,
+      "total": 416,
       "gw": [
-        62,
-        68,
-        55,
-        64,
-        44,
-        49
+        42,
+        74,
+        43,
+        84,
+        47,
+        60
       ],
       "cumulative": [
-        62,
-        130,
-        185,
-        249,
-        293,
-        342
+        42,
+        116,
+        159,
+        243,
+        290,
+        350
       ],
       "bench": [
-        0,
-        8,
-        4,
-        8,
-        0,
-        0
+        11,
+        10,
+        12,
+        11,
+        13,
+        7
       ],
       "overallRank": [
-        1436683,
-        4603574,
-        4175402,
-        4790661,
-        5109269,
-        5734331
+        6633922,
+        6564705,
+        7238481,
+        5415832,
+        5437518,
+        5194807
       ]
     },
     {
       "entry": 5889803,
       "name": "Colorado Rapids",
       "manager": "Kyle Moore",
-      "rank": 20,
-      "total": 368,
+      "rank": 19,
+      "total": 393,
       "gw": [
         37,
         67,
@@ -798,8 +759,8 @@
       "entry": 3386538,
       "name": "The Lord Kickers",
       "manager": "Maggie McDonald",
-      "rank": 21,
-      "total": 367,
+      "rank": 20,
+      "total": 388,
       "gw": [
         38,
         74,
@@ -834,11 +795,50 @@
       ]
     },
     {
+      "entry": 7528423,
+      "name": "Gammie Loves Me More",
+      "manager": "Casey Priore",
+      "rank": 21,
+      "total": 387,
+      "gw": [
+        62,
+        68,
+        55,
+        64,
+        44,
+        49
+      ],
+      "cumulative": [
+        62,
+        130,
+        185,
+        249,
+        293,
+        342
+      ],
+      "bench": [
+        0,
+        8,
+        4,
+        8,
+        0,
+        0
+      ],
+      "overallRank": [
+        1436683,
+        4603574,
+        4175402,
+        4790661,
+        5109269,
+        5734331
+      ]
+    },
+    {
       "entry": 5033290,
       "name": "Mercuri-al Rising",
       "manager": "Ben Mercuri",
       "rank": 22,
-      "total": 345,
+      "total": 378,
       "gw": [
         63,
         63,
@@ -877,7 +877,7 @@
       "name": "Haaland & Oates",
       "manager": "Peter Gotfredson",
       "rank": 23,
-      "total": 335,
+      "total": 372,
       "gw": [
         45,
         64,
