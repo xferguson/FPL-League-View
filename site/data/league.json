@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T11:31:05.407Z",
+  "generatedAt": "2026-10-19T21:50:58.882Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -97,7 +97,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 497,
+      "total": 501,
       "gw": [
         59,
         116,
@@ -210,10 +210,49 @@
       ]
     },
     {
+      "entry": 4289424,
+      "name": "Great balls of fire!",
+      "manager": "Pete  Mitchell",
+      "rank": 6,
+      "total": 481,
+      "gw": [
+        76,
+        98,
+        44,
+        78,
+        41,
+        76
+      ],
+      "cumulative": [
+        76,
+        174,
+        218,
+        296,
+        337,
+        413
+      ],
+      "bench": [
+        0,
+        21,
+        11,
+        12,
+        15,
+        15
+      ],
+      "overallRank": [
+        201604,
+        338418,
+        759785,
+        931518,
+        1425491,
+        946821
+      ]
+    },
+    {
       "entry": 5931087,
       "name": "The Showman",
       "manager": "Greg Bowman",
-      "rank": 6,
+      "rank": 7,
       "total": 477,
       "gw": [
         66,
@@ -246,45 +285,6 @@
         2015144,
         1794310,
         1114513
-      ]
-    },
-    {
-      "entry": 4289424,
-      "name": "Great balls of fire!",
-      "manager": "Pete  Mitchell",
-      "rank": 7,
-      "total": 475,
-      "gw": [
-        76,
-        98,
-        44,
-        78,
-        41,
-        76
-      ],
-      "cumulative": [
-        76,
-        174,
-        218,
-        296,
-        337,
-        413
-      ],
-      "bench": [
-        0,
-        21,
-        11,
-        12,
-        15,
-        15
-      ],
-      "overallRank": [
-        201604,
-        338418,
-        759785,
-        931518,
-        1425491,
-        946821
       ]
     },
     {
@@ -409,7 +409,7 @@
       "name": "Call My Agent",
       "manager": "Alexander Ferguson",
       "rank": 11,
-      "total": 452,
+      "total": 456,
       "gw": [
         55,
         87,
@@ -604,7 +604,7 @@
       "name": "Free the Iraola",
       "manager": "Jack Furrh",
       "rank": 16,
-      "total": 436,
+      "total": 440,
       "gw": [
         53,
         67,
@@ -682,7 +682,7 @@
       "name": "TākOffUrPantsnJaquet",
       "manager": "Jake Armstrong",
       "rank": 18,
-      "total": 416,
+      "total": 418,
       "gw": [
         42,
         74,
