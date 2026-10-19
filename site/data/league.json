@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18T19:50:23.224Z",
+  "generatedAt": "2026-10-19T11:31:05.407Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -175,7 +175,7 @@
       "name": "Touch Grass",
       "manager": "Colin Gotfred",
       "rank": 5,
-      "total": 484,
+      "total": 486,
       "gw": [
         57,
         89,
@@ -405,10 +405,49 @@
       ]
     },
     {
+      "entry": 3916636,
+      "name": "Call My Agent",
+      "manager": "Alexander Ferguson",
+      "rank": 11,
+      "total": 452,
+      "gw": [
+        55,
+        87,
+        56,
+        106,
+        58,
+        52
+      ],
+      "cumulative": [
+        55,
+        142,
+        198,
+        304,
+        362,
+        414
+      ],
+      "bench": [
+        2,
+        2,
+        18,
+        -2,
+        7,
+        7
+      ],
+      "overallRank": [
+        2935782,
+        2944993,
+        2523055,
+        597579,
+        359801,
+        917890
+      ]
+    },
+    {
       "entry": 5961863,
       "name": "Jeremy Ping Pong",
       "manager": "James Hixson",
-      "rank": 11,
+      "rank": 12,
       "total": 451,
       "gw": [
         46,
@@ -447,7 +486,7 @@
       "entry": 3288357,
       "name": "Boo Hoo Argentina",
       "manager": "Peter Gotfredson",
-      "rank": 12,
+      "rank": 13,
       "total": 450,
       "gw": [
         25,
@@ -480,45 +519,6 @@
         3430081,
         1735975,
         2601076
-      ]
-    },
-    {
-      "entry": 3916636,
-      "name": "Call My Agent",
-      "manager": "Alexander Ferguson",
-      "rank": 13,
-      "total": 450,
-      "gw": [
-        55,
-        87,
-        56,
-        106,
-        58,
-        52
-      ],
-      "cumulative": [
-        55,
-        142,
-        198,
-        304,
-        362,
-        414
-      ],
-      "bench": [
-        2,
-        2,
-        18,
-        -2,
-        7,
-        7
-      ],
-      "overallRank": [
-        2935782,
-        2944993,
-        2523055,
-        597579,
-        359801,
-        917890
       ]
     },
     {
@@ -721,7 +721,7 @@
       "name": "Colorado Rapids",
       "manager": "Kyle Moore",
       "rank": 19,
-      "total": 393,
+      "total": 395,
       "gw": [
         37,
         67,
@@ -760,7 +760,7 @@
       "name": "The Lord Kickers",
       "manager": "Maggie McDonald",
       "rank": 20,
-      "total": 388,
+      "total": 390,
       "gw": [
         38,
         74,
