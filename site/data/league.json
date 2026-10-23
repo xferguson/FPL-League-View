@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T10:41:22.989Z",
+  "generatedAt": "2026-10-23T20:46:44.743Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -106,7 +106,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 504,
+      "total": 501,
       "gw": [
         59,
         116,
@@ -278,7 +278,7 @@
       "name": "The Showman",
       "manager": "Greg Bowman",
       "rank": 7,
-      "total": 477,
+      "total": 479,
       "gw": [
         66,
         73,
@@ -360,10 +360,53 @@
       ]
     },
     {
+      "entry": 5671303,
+      "name": "Aston Vanilla",
+      "manager": "Nathan Hodnett",
+      "rank": 9,
+      "total": 458,
+      "gw": [
+        59,
+        107,
+        44,
+        71,
+        28,
+        76,
+        71
+      ],
+      "cumulative": [
+        59,
+        166,
+        210,
+        281,
+        309,
+        385,
+        456
+      ],
+      "bench": [
+        0,
+        10,
+        14,
+        18,
+        12,
+        8,
+        4
+      ],
+      "overallRank": [
+        1987556,
+        708195,
+        1341247,
+        1908431,
+        3681958,
+        2549625,
+        2154292
+      ]
+    },
+    {
       "entry": 2403816,
       "name": "Adobe Goalposts",
       "manager": "Jeffrey Becker",
-      "rank": 9,
+      "rank": 10,
       "total": 457,
       "gw": [
         54,
@@ -400,49 +443,6 @@
         1286426,
         1957920,
         2111791
-      ]
-    },
-    {
-      "entry": 5671303,
-      "name": "Aston Vanilla",
-      "manager": "Nathan Hodnett",
-      "rank": 10,
-      "total": 456,
-      "gw": [
-        59,
-        107,
-        44,
-        71,
-        28,
-        76,
-        71
-      ],
-      "cumulative": [
-        59,
-        166,
-        210,
-        281,
-        309,
-        385,
-        456
-      ],
-      "bench": [
-        0,
-        10,
-        14,
-        18,
-        12,
-        8,
-        4
-      ],
-      "overallRank": [
-        1987556,
-        708195,
-        1341247,
-        1908431,
-        3681958,
-        2549625,
-        2154292
       ]
     },
     {
@@ -493,7 +493,7 @@
       "name": "Jeremy Ping Pong",
       "manager": "James Hixson",
       "rank": 12,
-      "total": 452,
+      "total": 451,
       "gw": [
         46,
         78,
@@ -536,7 +536,7 @@
       "name": "Boo Hoo Argentina",
       "manager": "Peter Gotfredson",
       "rank": 13,
-      "total": 451,
+      "total": 450,
       "gw": [
         25,
         99,
@@ -579,7 +579,7 @@
       "name": "Full Gassers",
       "manager": "Bill G",
       "rank": 14,
-      "total": 451,
+      "total": 449,
       "gw": [
         47,
         83,
@@ -665,7 +665,7 @@
       "name": "Free the Iraola",
       "manager": "Jack Furrh",
       "rank": 16,
-      "total": 440,
+      "total": 447,
       "gw": [
         53,
         67,
@@ -708,7 +708,7 @@
       "name": "Double Elimination",
       "manager": "Orenthal James",
       "rank": 17,
-      "total": 432,
+      "total": 434,
       "gw": [
         58,
         100,
@@ -790,54 +790,11 @@
       ]
     },
     {
-      "entry": 3386538,
-      "name": "The Lord Kickers",
-      "manager": "Maggie McDonald",
-      "rank": 19,
-      "total": 399,
-      "gw": [
-        38,
-        74,
-        60,
-        73,
-        63,
-        49,
-        42
-      ],
-      "cumulative": [
-        38,
-        112,
-        172,
-        245,
-        308,
-        357,
-        399
-      ],
-      "bench": [
-        7,
-        6,
-        2,
-        2,
-        0,
-        11,
-        2
-      ],
-      "overallRank": [
-        7485068,
-        6920383,
-        5817678,
-        5163773,
-        3710282,
-        4607867,
-        5775418
-      ]
-    },
-    {
       "entry": 5889803,
       "name": "Colorado Rapids",
       "manager": "Kyle Moore",
-      "rank": 20,
-      "total": 396,
+      "rank": 19,
+      "total": 397,
       "gw": [
         37,
         67,
@@ -876,11 +833,54 @@
       ]
     },
     {
+      "entry": 3386538,
+      "name": "The Lord Kickers",
+      "manager": "Maggie McDonald",
+      "rank": 20,
+      "total": 390,
+      "gw": [
+        38,
+        74,
+        60,
+        73,
+        63,
+        49,
+        42
+      ],
+      "cumulative": [
+        38,
+        112,
+        172,
+        245,
+        308,
+        357,
+        399
+      ],
+      "bench": [
+        7,
+        6,
+        2,
+        2,
+        0,
+        11,
+        2
+      ],
+      "overallRank": [
+        7485068,
+        6920383,
+        5817678,
+        5163773,
+        3710282,
+        4607867,
+        5775418
+      ]
+    },
+    {
       "entry": 7528423,
       "name": "Gammie Loves Me More",
       "manager": "Casey Priore",
       "rank": 21,
-      "total": 389,
+      "total": 387,
       "gw": [
         62,
         68,
@@ -923,7 +923,7 @@
       "name": "Mercuri-al Rising",
       "manager": "Ben Mercuri",
       "rank": 22,
-      "total": 384,
+      "total": 380,
       "gw": [
         63,
         63,
