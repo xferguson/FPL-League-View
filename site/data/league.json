@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T20:46:44.743Z",
+  "generatedAt": "2026-10-24T09:58:10.670Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -106,7 +106,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 3,
-      "total": 501,
+      "total": 504,
       "gw": [
         59,
         116,
@@ -493,7 +493,7 @@
       "name": "Jeremy Ping Pong",
       "manager": "James Hixson",
       "rank": 12,
-      "total": 451,
+      "total": 452,
       "gw": [
         46,
         78,
@@ -536,7 +536,7 @@
       "name": "Boo Hoo Argentina",
       "manager": "Peter Gotfredson",
       "rank": 13,
-      "total": 450,
+      "total": 451,
       "gw": [
         25,
         99,
@@ -579,7 +579,7 @@
       "name": "Full Gassers",
       "manager": "Bill G",
       "rank": 14,
-      "total": 449,
+      "total": 451,
       "gw": [
         47,
         83,
@@ -790,54 +790,11 @@
       ]
     },
     {
-      "entry": 5889803,
-      "name": "Colorado Rapids",
-      "manager": "Kyle Moore",
-      "rank": 19,
-      "total": 397,
-      "gw": [
-        37,
-        67,
-        44,
-        64,
-        37,
-        78,
-        69
-      ],
-      "cumulative": [
-        37,
-        104,
-        148,
-        212,
-        249,
-        327,
-        396
-      ],
-      "bench": [
-        10,
-        18,
-        5,
-        10,
-        7,
-        12,
-        6
-      ],
-      "overallRank": [
-        7658231,
-        7692095,
-        8018570,
-        7797639,
-        8249054,
-        6777809,
-        5991289
-      ]
-    },
-    {
       "entry": 3386538,
       "name": "The Lord Kickers",
       "manager": "Maggie McDonald",
-      "rank": 20,
-      "total": 390,
+      "rank": 19,
+      "total": 399,
       "gw": [
         38,
         74,
@@ -876,11 +833,54 @@
       ]
     },
     {
+      "entry": 5889803,
+      "name": "Colorado Rapids",
+      "manager": "Kyle Moore",
+      "rank": 20,
+      "total": 398,
+      "gw": [
+        37,
+        67,
+        44,
+        64,
+        37,
+        78,
+        69
+      ],
+      "cumulative": [
+        37,
+        104,
+        148,
+        212,
+        249,
+        327,
+        396
+      ],
+      "bench": [
+        10,
+        18,
+        5,
+        10,
+        7,
+        12,
+        6
+      ],
+      "overallRank": [
+        7658231,
+        7692095,
+        8018570,
+        7797639,
+        8249054,
+        6777809,
+        5991289
+      ]
+    },
+    {
       "entry": 7528423,
       "name": "Gammie Loves Me More",
       "manager": "Casey Priore",
       "rank": 21,
-      "total": 387,
+      "total": 389,
       "gw": [
         62,
         68,
@@ -923,7 +923,7 @@
       "name": "Mercuri-al Rising",
       "manager": "Ben Mercuri",
       "rank": 22,
-      "total": 380,
+      "total": 386,
       "gw": [
         63,
         63,
