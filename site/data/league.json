@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T19:57:30.569Z",
+  "generatedAt": "2026-10-25T10:21:37.712Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -20,7 +20,7 @@
       "name": "What ru lkn @Butland",
       "manager": "Biff Tannen",
       "rank": 1,
-      "total": 544,
+      "total": 543,
       "gw": [
         63,
         119,
@@ -63,7 +63,7 @@
       "name": "Midwesterners United",
       "manager": "Adam Rosenblum",
       "rank": 2,
-      "total": 537,
+      "total": 536,
       "gw": [
         59,
         116,
@@ -149,7 +149,7 @@
       "name": "While Romero Burns",
       "manager": "Jason Mohr",
       "rank": 4,
-      "total": 530,
+      "total": 529,
       "gw": [
         42,
         114,
@@ -192,7 +192,7 @@
       "name": "The Showman",
       "manager": "Greg Bowman",
       "rank": 5,
-      "total": 518,
+      "total": 519,
       "gw": [
         66,
         73,
@@ -274,54 +274,11 @@
       ]
     },
     {
-      "entry": 4289424,
-      "name": "Great balls of fire!",
-      "manager": "Pete  Mitchell",
-      "rank": 7,
-      "total": 505,
-      "gw": [
-        76,
-        98,
-        44,
-        78,
-        41,
-        76,
-        68
-      ],
-      "cumulative": [
-        76,
-        174,
-        218,
-        296,
-        337,
-        413,
-        481
-      ],
-      "bench": [
-        0,
-        21,
-        11,
-        12,
-        15,
-        15,
-        13
-      ],
-      "overallRank": [
-        201604,
-        338418,
-        759785,
-        931518,
-        1425491,
-        946821,
-        977374
-      ]
-    },
-    {
       "entry": 3160066,
       "name": "Strugglers United FC",
       "manager": "Leo Barthel",
-      "rank": 8,
-      "total": 503,
+      "rank": 7,
+      "total": 504,
       "gw": [
         58,
         101,
@@ -360,54 +317,54 @@
       ]
     },
     {
-      "entry": 2403816,
-      "name": "Adobe Goalposts",
-      "manager": "Jeffrey Becker",
-      "rank": 9,
-      "total": 502,
+      "entry": 4289424,
+      "name": "Great balls of fire!",
+      "manager": "Pete  Mitchell",
+      "rank": 8,
+      "total": 504,
       "gw": [
-        54,
-        101,
+        76,
+        98,
         44,
-        92,
-        48,
-        55,
-        63
+        78,
+        41,
+        76,
+        68
       ],
       "cumulative": [
-        54,
-        155,
-        199,
-        291,
-        339,
-        394,
-        457
+        76,
+        174,
+        218,
+        296,
+        337,
+        413,
+        481
       ],
       "bench": [
-        7,
-        23,
-        16,
-        9,
-        8,
-        7,
-        6
+        0,
+        21,
+        11,
+        12,
+        15,
+        15,
+        13
       ],
       "overallRank": [
-        3208418,
-        1474311,
-        2462198,
-        1204199,
-        1286426,
-        1957920,
-        2111791
+        201604,
+        338418,
+        759785,
+        931518,
+        1425491,
+        946821,
+        977374
       ]
     },
     {
       "entry": 3916636,
       "name": "Call My Agent",
       "manager": "Alexander Ferguson",
-      "rank": 10,
-      "total": 501,
+      "rank": 9,
+      "total": 502,
       "gw": [
         55,
         87,
@@ -446,11 +403,54 @@
       ]
     },
     {
+      "entry": 2403816,
+      "name": "Adobe Goalposts",
+      "manager": "Jeffrey Becker",
+      "rank": 10,
+      "total": 501,
+      "gw": [
+        54,
+        101,
+        44,
+        92,
+        48,
+        55,
+        63
+      ],
+      "cumulative": [
+        54,
+        155,
+        199,
+        291,
+        339,
+        394,
+        457
+      ],
+      "bench": [
+        7,
+        23,
+        16,
+        9,
+        8,
+        7,
+        6
+      ],
+      "overallRank": [
+        3208418,
+        1474311,
+        2462198,
+        1204199,
+        1286426,
+        1957920,
+        2111791
+      ]
+    },
+    {
       "entry": 5671303,
       "name": "Aston Vanilla",
       "manager": "Nathan Hodnett",
       "rank": 11,
-      "total": 483,
+      "total": 482,
       "gw": [
         59,
         107,
