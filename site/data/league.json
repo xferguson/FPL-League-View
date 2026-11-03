@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T00:10:39.549Z",
+  "generatedAt": "2026-11-03T13:13:13.448Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -21,7 +21,7 @@
       "name": "What ru lkn @Butland",
       "manager": "Biff Tannen",
       "rank": 1,
-      "total": 628,
+      "total": 629,
       "gw": [
         63,
         119,
@@ -538,7 +538,7 @@
       "name": "Jeremy Ping Pong",
       "manager": "James Hixson",
       "rank": 12,
-      "total": 539,
+      "total": 543,
       "gw": [
         46,
         78,
@@ -726,7 +726,7 @@
       "name": "Full Gassers",
       "manager": "Bill G",
       "rank": 16,
-      "total": 529,
+      "total": 530,
       "gw": [
         47,
         83,
@@ -816,10 +816,57 @@
       ]
     },
     {
+      "entry": 2429649,
+      "name": "TākOffUrPantsnJaquet",
+      "manager": "Jake Armstrong",
+      "rank": 18,
+      "total": 511,
+      "gw": [
+        42,
+        74,
+        43,
+        84,
+        47,
+        60,
+        68,
+        49
+      ],
+      "cumulative": [
+        42,
+        116,
+        159,
+        243,
+        290,
+        350,
+        418,
+        467
+      ],
+      "bench": [
+        11,
+        10,
+        12,
+        11,
+        13,
+        7,
+        7,
+        2
+      ],
+      "overallRank": [
+        6633922,
+        6564705,
+        7238481,
+        5415832,
+        5437518,
+        5194807,
+        4588023,
+        4378742
+      ]
+    },
+    {
       "entry": 3386538,
       "name": "The Lord Kickers",
       "manager": "Maggie McDonald",
-      "rank": 18,
+      "rank": 19,
       "total": 509,
       "gw": [
         38,
@@ -863,58 +910,11 @@
       ]
     },
     {
-      "entry": 2429649,
-      "name": "TākOffUrPantsnJaquet",
-      "manager": "Jake Armstrong",
-      "rank": 19,
-      "total": 508,
-      "gw": [
-        42,
-        74,
-        43,
-        84,
-        47,
-        60,
-        68,
-        49
-      ],
-      "cumulative": [
-        42,
-        116,
-        159,
-        243,
-        290,
-        350,
-        418,
-        467
-      ],
-      "bench": [
-        11,
-        10,
-        12,
-        11,
-        13,
-        7,
-        7,
-        2
-      ],
-      "overallRank": [
-        6633922,
-        6564705,
-        7238481,
-        5415832,
-        5437518,
-        5194807,
-        4588023,
-        4378742
-      ]
-    },
-    {
       "entry": 5889803,
       "name": "Colorado Rapids",
       "manager": "Kyle Moore",
       "rank": 20,
-      "total": 486,
+      "total": 487,
       "gw": [
         37,
         67,
@@ -961,7 +961,7 @@
       "name": "Haaland & Oates",
       "manager": "Peter Gotfredson",
       "rank": 21,
-      "total": 461,
+      "total": 460,
       "gw": [
         45,
         64,
@@ -1055,7 +1055,7 @@
       "name": "Gammie Loves Me More",
       "manager": "Casey Priore",
       "rank": 23,
-      "total": 439,
+      "total": 440,
       "gw": [
         62,
         68,
