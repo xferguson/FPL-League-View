@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-08T21:27:51.453Z",
+  "generatedAt": "2026-11-09T14:39:36.622Z",
   "season": "2026/27",
   "league": {
     "id": 383398,
@@ -73,7 +73,7 @@
       "name": "What ru lkn @Butland",
       "manager": "Biff Tannen",
       "rank": 2,
-      "total": 669,
+      "total": 673,
       "gw": [
         63,
         119,
@@ -328,7 +328,7 @@
       "name": "Touch Grass",
       "manager": "Colin Gotfred",
       "rank": 7,
-      "total": 644,
+      "total": 649,
       "gw": [
         57,
         89,
@@ -378,7 +378,7 @@
       "entry": 3571176,
       "name": "While Romero Burns",
       "manager": "Jason Mohr",
-      "rank": 7,
+      "rank": 8,
       "total": 644,
       "gw": [
         42,
@@ -583,7 +583,7 @@
       "name": "Jeremy Ping Pong",
       "manager": "James Hixson",
       "rank": 12,
-      "total": 605,
+      "total": 606,
       "gw": [
         46,
         78,
@@ -1144,7 +1144,7 @@
       "name": "Gammie Loves Me More",
       "manager": "Casey Priore",
       "rank": 23,
-      "total": 468,
+      "total": 469,
       "gw": [
         62,
         68,
