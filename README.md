@@ -3,9 +3,11 @@
 A static site that charts an FPL mini-league gameweek by gameweek against two baselines:
 the league average and the overall FPL average.
 
-Six views, from two controls: **Points**, **% Lg** or **% FPL**, each either **Cumulative**
-or **Per GW**. In a percentage view the chosen baseline is a flat 100% line and every team
-is read against it.
+Nine views, from two controls: **Points**, **% Lg** or **% FPL**, each as **Cumulative**,
+**Per GW**, or **Trend**. In a percentage view the chosen baseline is a flat 100% line and
+every team is read against it. Trend is a straight best-fit line through the per-gameweek
+values — the week-to-week noise smoothed away, so what's left is just which direction a
+team is actually heading.
 
 Built for reading on a phone. No backend, no build step: the page loads one JSON file.
 It's also a installable PWA — add it to your homescreen and it opens like an app, works

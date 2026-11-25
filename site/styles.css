@@ -314,8 +314,8 @@ h2 {
 
 /* ---------- segmented controls ---------- */
 
-/* Two groups rather than one six-way switch: three measures x two bases. Six
-   buttons in a single row does not fit a phone. */
+/* Two groups rather than one nine-way switch: three measures x three bases.
+   Nine buttons in a single row does not fit a phone. */
 .controls {
   display: flex;
   flex-wrap: wrap;

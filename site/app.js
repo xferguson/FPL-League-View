@@ -116,19 +116,49 @@
 
   const rawValues = (source) => (basis === 'cumulative' ? source.cumulative : source.gw) ?? [];
 
+  /* Ordinary least-squares line through (gameweek index, value) for whichever
+     points actually exist, so one bad or one great week can't swing it the way
+     a two- or three-point moving average would — the whole season votes.
+     Plotted only between a series' first and last real value, never
+     extrapolated into gameweeks before a team existed or past the last one
+     played. */
+  function linearTrend(values) {
+    const pts = values.map((v, i) => [i, v]).filter(([, v]) => isNum(v));
+    if (pts.length < 2) return values.map(() => null);
+
+    const n = pts.length;
+    const sumX = pts.reduce((a, [x]) => a + x, 0);
+    const sumY = pts.reduce((a, [, y]) => a + y, 0);
+    const sumXY = pts.reduce((a, [x, y]) => a + x * y, 0);
+    const sumXX = pts.reduce((a, [x]) => a + x * x, 0);
+    const denom = n * sumXX - sumX * sumX;
+    const slope = denom === 0 ? 0 : (n * sumXY - sumX * sumY) / denom;
+    const intercept = (sumY - slope * sumX) / n;
+
+    const firstIdx = pts[0][0];
+    const lastIdx = pts.at(-1)[0];
+    return values.map((_, i) => (i >= firstIdx && i <= lastIdx ? Math.round((slope * i + intercept) * 10) / 10 : null));
+  }
+
   /* In points mode this is the score itself; otherwise it is that score over the
      chosen baseline, as a percentage. The baseline's own line therefore sits flat
-     at 100, which is exactly the reference the reader wants to see. */
+     at 100, which is exactly the reference the reader wants to see. Trend is a
+     transform layered on top of either: always fitted to the per-gameweek
+     values (never the cumulative run), so "trend of % Lg" and "trend of points"
+     both mean the same thing — smoothed direction, week over week. */
   function values(source) {
     const raw = rawValues(source);
     const denom = denominatorSeries();
-    if (!denom) return raw;
-    const scale = rawValues(denom);
-    return raw.map((v, i) => {
-      const d = scale[i];
-      if (v === null || v === undefined || d === null || d === undefined || d === 0) return null;
-      return Math.round((v / d) * 1000) / 10;
-    });
+    let base = raw;
+    if (denom) {
+      const scale = rawValues(denom);
+      base = raw.map((v, i) => {
+        const d = scale[i];
+        if (v === null || v === undefined || d === null || d === undefined || d === 0) return null;
+        return Math.round((v / d) * 1000) / 10;
+      });
+    }
+    return basis === 'trend' ? linearTrend(base) : base;
   }
 
   function buildDatasets(p) {
@@ -268,7 +298,7 @@
           },
         },
         y: {
-          beginAtZero: measure === 'points' && basis === 'gw',
+          beginAtZero: measure === 'points' && (basis === 'gw' || basis === 'trend'),
           ...bounds,
           grid: { color: p.grid, drawTicks: false },
           border: { display: false, dash: [] },
@@ -370,15 +400,25 @@
   };
 
   function renderNote() {
-    const cumulative = basis === 'cumulative';
     el('chart-heading').textContent = MEASURE_HEADING[measure];
-    const note = measure === 'points'
-      ? (cumulative
-          ? 'Running season total after each gameweek.'
-          : 'Points scored in each individual gameweek.')
-      : (cumulative
-          ? `Season total so far as a percentage of ${MEASURE_LABEL[measure]} over the same weeks. 100% is level with it.`
-          : `Each gameweek's score as a percentage of ${MEASURE_LABEL[measure]} that week. 100% is level with it.`);
+
+    let note;
+    if (basis === 'cumulative') {
+      note = measure === 'points'
+        ? 'Running season total after each gameweek.'
+        : `Season total so far as a percentage of ${MEASURE_LABEL[measure]} over the same weeks. 100% is level with it.`;
+    } else if (basis === 'gw') {
+      note = measure === 'points'
+        ? 'Points scored in each individual gameweek.'
+        : `Each gameweek's score as a percentage of ${MEASURE_LABEL[measure]} that week. 100% is level with it.`;
+    } else {
+      // A straight best-fit line through the per-gameweek values — the
+      // week-to-week noise smoothed out of the way, so what's left is just
+      // which direction a team is actually heading.
+      note = measure === 'points'
+        ? "Best-fit trend line through each gameweek's points — which way the season is heading."
+        : `Best-fit trend line through each gameweek's score as a percentage of ${MEASURE_LABEL[measure]}.`;
+    }
     el('chart-note').textContent = note;
   }
 
@@ -522,7 +562,7 @@
   /* ---------- persisted preferences ---------- */
 
   const MEASURES = ['points', 'league', 'fpl'];
-  const BASES = ['cumulative', 'gw'];
+  const BASES = ['cumulative', 'gw', 'trend'];
 
   /** Restore chart type, which teams are shown, and which is focused. */
   function loadPrefs() {
@@ -554,7 +594,7 @@
   /* ---------- wiring ---------- */
 
   /* Both controls work the same way: mark the pressed button, store the choice,
-     redraw. Three measures x two bases gives the six views. */
+     redraw. Three measures x three bases gives nine views. */
   function wireSegmented(attr, apply) {
     const buttons = [...document.querySelectorAll(`[data-${attr}]`)];
     for (const button of buttons) {
